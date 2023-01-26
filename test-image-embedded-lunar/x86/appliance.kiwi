@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<image schemaversion="7.4" name="test-image-embedded-jammy">
+    <description type="system">
+        <author>Marcus Schäfer</author>
+        <contact>marcus.schaefer@elektrobit.com</contact>
+        <specification>x86 grub disk test build that applies several aspects of embedded images</specification>
+    </description>
+
+    <preferences>
+        <version>1.0.1</version>
+        <packagemanager>apt</packagemanager>
+        <type image="oem" filesystem="ext2" firmware="custom" initrd_system="none" overlayroot="true" overlayroot_write_partition="false" overlayroot_readonly_partsize="85" bootpartition="true" bootpartsize="30" format="qcow2">
+            <bootloader name="grub2"/>
+            <oemconfig>
+                <oem-resize>false</oem-resize>
+            </oemconfig>
+            <size unit="M">128</size>
+            <partitions>
+                <partition name="home" size="5" mountpoint="/home" filesystem="ext2"/>
+            </partitions>
+        </type>
+    </preferences>
+
+    <users>
+        <user password="$1$wYJUgpM5$RXMMeASDc035eX.NbYWFl0" home="/root" name="root" groups="root" shell="/bin/ash"/>
+    </users>
+    <users>
+        <user password="$1$wYJUgpM5$RXMMeASDc035eX.NbYWFl0" home="/home/admin" name="admin" groups="users" shell="/bin/ash"/>
+    </users>
+
+    <repository type="apt-deb" alias="Lunar-ppa" distribution="lunar" components="main" repository_gpgcheck="false">
+        <source path="https://schaefi:XXXXX@private-ppa.launchpadcontent.net/erlangen-team/ebcl-test/ubuntu"/>
+    </repository>
+    <repository type="apt-deb" alias="Lunar-security" distribution="lunar-security" components="main multiverse restricted universe" repository_gpgcheck="false">
+        <source path="http://security.ubuntu.com/ubuntu"/>
+    </repository>
+    <repository type="apt-deb" alias="Lunar-updates" distribution="lunar-updates" components="main multiverse restricted universe" repository_gpgcheck="false">
+        <source path="http://us.archive.ubuntu.com/ubuntu/"/>
+    </repository>
+    <repository type="apt-deb" alias="Lunar" distribution="lunar" components="main multiverse restricted universe" repository_gpgcheck="false" use_for_bootstrap="true">
+        <source path="http://us.archive.ubuntu.com/ubuntu/"/>
+    </repository>
+
+    <packages type="image">
+        <!-- kernel -->
+        <package name="linux-generic"/>
+        <!-- network, ssh, sudo -->
+        <package name="openssh-client"/>
+        <package name="openssh-server"/>
+        <package name="usrmerge"/>
+        <package name="netbase"/>
+        <package name="sudo"/>
+        <package name="cron"/>
+        <!-- bootloader -->
+        <package name="grub-common" arch="x86_64"/>
+        <package name="grub2-common" arch="x86_64"/>
+        <package name="grub-pc-bin" arch="x86_64"/>
+        <!-- system -->
+        <package name="systemd"/>
+        <package name="dracut"/>
+        <package name="locales"/>
+        <package name="busybox-static"/>
+    </packages>
+
+    <packages type="bootstrap" bootstrap_package="kiwi-bootstrap-lunar"/>
+
+    <packages type="delete">
+        <!-- Force delete packages we don't need or want -->
+        <package name="kiwi-bootstrap-lunar"/>
+        <package name="cpio"/>
+        <package name="dmsetup"/>
+        <package name="dracut"/>
+        <package name="dracut-core"/>
+        <package name="e2fsprogs"/>
+        <package name="gcc-9-base"/>
+        <package name="gcc-10-base"/>
+        <package name="gcc-11-base"/>
+        <package name="kpartx"/>
+        <package name="pkg-config"/>
+        <package name="perl"/>
+        <package name="readline-common"/>
+        <package name="gpgsm"/>
+        <package name="gnupg-utils"/>
+        <package name="dirmngr"/>
+        <package name="gpgconf"/>
+        <package name="gpg"/>
+        <package name="bash"/>
+        <package name="findutils"/>
+        <package name="sed"/>
+        <package name="grep"/>
+        <package name="libparted2"/>
+        <package name="libdpkg-perl"/>
+        <package name="libreadline8"/>
+        <package name="libksba8"/>
+        <package name="libtasn1-6"/>
+        <package name="libgmp10"/>
+        <package name="libgnutls30"/>
+        <package name="libstdc++6"/>
+        <package name="apt"/>
+        <package name="linux-modules"/>
+    </packages>
+</image>

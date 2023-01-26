@@ -1,0 +1,21 @@
+#!/bin/dash
+
+mount -t proc proc /proc
+mount -t sysfs sysfs /sys
+mount -t tmpfs tmpfs /run
+
+for param in $(cat /proc/cmdline);do eval "$param" >/dev/null 2>/dev/null; done < /proc/cmdline
+
+if [ -n "${rw}" ];then
+    mount "${rw}" /overlayroot
+    mkdir -p \
+        /overlayroot/rootfs \
+        /overlayroot/rootfs_upper \
+        /overlayroot/rootfs_work
+
+    mount -t overlay overlay /overlayroot/rootfs \
+        -o lowerdir=/,upperdir=/overlayroot/rootfs_upper,workdir=/overlayroot/rootfs_work
+
+    cd /overlayroot/rootfs
+    exec /usr/sbin/switch_root . /sbin/init
+fi

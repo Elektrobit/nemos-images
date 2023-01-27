@@ -1,0 +1,14 @@
+Source: nautilos-images-canonical
+Section: devel
+Priority: optional
+Maintainer: Marcus Schaefer <marcus.schaefer@elektrobit.com>
+Build-Depends: debhelper-compat (= 13)
+Standards-Version: 4.6.0
+Homepage: https://osinside.github.io/kiwi
+Rules-Requires-Root: no
+
+Package: nautilos-images-canonical
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: EBCL - NautilOS Community OS Images
+ A collection of image descriptions for embedded targets 

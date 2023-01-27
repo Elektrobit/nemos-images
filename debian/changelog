@@ -1,5 +1,5 @@
 nautilos-images-canonical (1.0-1) UNRELEASED; urgency=medium
 
-  * Initial release (Closes: #nnnn)  <nnnn is the bug number of your ITP>
+  * Initial release
 
- -- Ubuntu <ubuntu@unknown>  Fri, 27 Jan 2023 09:01:49 +0000
+ -- Marcus Schaefer <marcus.schaefer@elektrobit.com>  Fri, 27 Jan 2023 09:01:49 +0000

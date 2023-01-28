@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<image schemaversion="7.4" name="test-image-embedded-jammy">
+<image schemaversion="7.4" name="test-image-embedded-lunar">
     <description type="system">
         <author>Marcus Schäfer</author>
         <contact>marcus.schaefer@elektrobit.com</contact>
@@ -10,7 +10,7 @@
     <preferences>
         <version>1.0.1</version>
         <packagemanager>apt</packagemanager>
-        <type image="oem" filesystem="ext2" firmware="custom" initrd_system="none" overlayroot="true" overlayroot_write_partition="false" overlayroot_readonly_partsize="85" bootpartition="true" bootpartsize="30" format="qcow2">
+        <type image="oem" filesystem="ext2" firmware="custom" initrd_system="dracut" overlayroot="true" overlayroot_write_partition="false" overlayroot_readonly_partsize="45" bootpartition="true" bootpartsize="75" format="qcow2">
             <bootloader name="grub2"/>
             <oemconfig>
                 <oem-resize>false</oem-resize>
@@ -30,7 +30,7 @@
     </users>
 
     <repository type="apt-deb" alias="Lunar-ppa" distribution="lunar" components="main" repository_gpgcheck="false">
-        <source path="https://schaefi:XXXXX@private-ppa.launchpadcontent.net/erlangen-team/ebcl-test/ubuntu"/>
+        <source path="https://schaefi:tZsV4wBHS14ZwmQ7VkSZ@private-ppa.launchpadcontent.net/erlangen-team/ebcl-test/ubuntu"/>
     </repository>
     <repository type="apt-deb" alias="Lunar-security" distribution="lunar-security" components="main multiverse restricted universe" repository_gpgcheck="false">
         <source path="http://security.ubuntu.com/ubuntu"/>
@@ -64,40 +64,4 @@
     </packages>
 
     <packages type="bootstrap" bootstrap_package="kiwi-bootstrap-lunar"/>
-
-    <packages type="delete">
-        <!-- Force delete packages we don't need or want -->
-        <package name="kiwi-bootstrap-lunar"/>
-        <package name="cpio"/>
-        <package name="dmsetup"/>
-        <package name="dracut"/>
-        <package name="dracut-core"/>
-        <package name="e2fsprogs"/>
-        <package name="gcc-9-base"/>
-        <package name="gcc-10-base"/>
-        <package name="gcc-11-base"/>
-        <package name="kpartx"/>
-        <package name="pkg-config"/>
-        <package name="perl"/>
-        <package name="readline-common"/>
-        <package name="gpgsm"/>
-        <package name="gnupg-utils"/>
-        <package name="dirmngr"/>
-        <package name="gpgconf"/>
-        <package name="gpg"/>
-        <package name="bash"/>
-        <package name="findutils"/>
-        <package name="sed"/>
-        <package name="grep"/>
-        <package name="libparted2"/>
-        <package name="libdpkg-perl"/>
-        <package name="libreadline8"/>
-        <package name="libksba8"/>
-        <package name="libtasn1-6"/>
-        <package name="libgmp10"/>
-        <package name="libgnutls30"/>
-        <package name="libstdc++6"/>
-        <package name="apt"/>
-        <package name="linux-modules"/>
-    </packages>
 </image>

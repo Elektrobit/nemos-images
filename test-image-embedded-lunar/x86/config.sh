@@ -54,7 +54,8 @@ for service in \
     apt-daily-upgrade.timer \
     grub-common.service \
     grub-initrd-fallback.service \
-    systemd-resolved.service
+    systemd-resolved.service \
+    e2scrub_reap.service
 do
     systemctl mask "${service}"
 done

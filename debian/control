@@ -1,4 +1,4 @@
-Source: nautilos-images-canonical
+Source: test-image-embedded-lunar
 Section: devel
 Priority: optional
 Maintainer: Marcus Schaefer <marcus.schaefer@elektrobit.com>
@@ -7,8 +7,8 @@ Standards-Version: 4.6.0
 Homepage: https://osinside.github.io/kiwi
 Rules-Requires-Root: no
 
-Package: nautilos-images-canonical
-Architecture: any
+Package: test-image-embedded-lunar
+Architecture: all
 Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: EBCL - NautilOS Community OS Images
- A collection of image descriptions for embedded targets 
+Description: EBCL - NautilOS Community Image (Lunar)
+ Lunar image descriptions for embedded targets

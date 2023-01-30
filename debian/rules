@@ -12,9 +12,10 @@
 # package maintainers to append LDFLAGS
 #export DEB_LDFLAGS_MAINT_APPEND = -Wl,--as-needed
 
+override_dh_auto_build:
+
 override_dh_auto_install:
 	make buildroot=debian/tmp/ install
-	dh_auto_install
 
 %:
 	dh $@

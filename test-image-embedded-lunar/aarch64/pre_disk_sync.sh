@@ -19,8 +19,9 @@ ln -s /boot/initrd-*-generic /boot/initrd
     cd /boot
     mkimage -f bootargs.its bootargs.itb
 )
+rm /boot/System.map*
 rm /boot/initrd*
-rm /boot/vmlinuz
+rm /boot/vmlinuz*
 
 #==========================================
 # create boot.scr read by u-boot

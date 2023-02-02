@@ -14,14 +14,6 @@
       entry = <0x80000000>;
       hash-1 { algo = "md5"; };
     };
-    fdt-1 {
-      description = "Flattened device tree blob";
-      data = /incbin/("SOME.dtb");
-      type = "flat_dt";
-      arch = "arm64";
-      compression = "none";
-      hash-1 { algo = "md5"; };
-    };
     ramdisk-1 {
       description = "Initial ramdisk image";
       data = /incbin/("initrd");
@@ -38,7 +30,6 @@
       description = "Default boot config";
       kernel = "kernel-1";
       ramdisk = "ramdisk-1";
-      fdt = "fdt-1";
     };
   };
 };

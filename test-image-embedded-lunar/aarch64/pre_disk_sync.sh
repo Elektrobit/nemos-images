@@ -10,7 +10,7 @@ ln -s /boot/initrd-*-generic /boot/initrd
 #=======================================
 # Get device tree for QEMU boot
 #---------------------------------------
-# FIXME: which one...
+# TODO: do we need one, or is the uboot provided one sufficient ?
 
 #=======================================
 # Create fit image
@@ -21,7 +21,6 @@ ln -s /boot/initrd-*-generic /boot/initrd
 )
 rm /boot/initrd*
 rm /boot/vmlinuz
-rm /boot/target.dtb
 
 #==========================================
 # create boot.scr read by u-boot

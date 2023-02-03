@@ -10,14 +10,14 @@
     <preferences>
         <version>1.0.1</version>
         <packagemanager>apt</packagemanager>
-        <type image="oem" filesystem="ext2" firmware="custom" initrd_system="dracut" overlayroot="true" overlayroot_write_partition="false" overlayroot_readonly_partsize="43" bootpartition="true" bootpartsize="78" format="qcow2" editbootinstall="uboot_install">
+        <type image="oem" filesystem="ext2" firmware="custom" initrd_system="dracut" overlayroot="true" overlayroot_write_partition="false" overlayroot_readonly_partsize="46" bootpartition="true" bootpartsize="79" format="qcow2" editbootinstall="uboot_install">
             <bootloader name="custom"/>
             <oemconfig>
                 <oem-resize>false</oem-resize>
             </oemconfig>
             <size unit="M">128</size>
             <partitions>
-                <partition name="home" size="5" mountpoint="/home" filesystem="ext2"/>
+                <partition name="home" size="1" mountpoint="/home" filesystem="ext2"/>
             </partitions>
         </type>
     </preferences>

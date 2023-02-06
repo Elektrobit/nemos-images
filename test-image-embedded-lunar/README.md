@@ -71,5 +71,4 @@ Use the following command line to boot the VM:
         -cpu cortex-a57 \
         -drive file=<path-to-file-here>.qcow2,if=virtio,driver=qcow2,cache=off \
         -nographic \
-        -bios /usr/lib/u-boot/qemu_arm64/u-boot.bin \
-        -serial stdio
+        -bios /usr/lib/u-boot/qemu_arm64/u-boot.bin

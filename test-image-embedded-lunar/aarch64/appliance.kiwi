@@ -56,6 +56,8 @@
         <package name="u-boot-qemu"/>
         <package name="u-boot-tools"/>
         <package name="device-tree-compiler"/>
+        <package name="qemu-system-arm"/>
+        <package name="ipxe-qemu"/>
         <!-- system -->
         <package name="systemd"/>
         <package name="dracut"/>

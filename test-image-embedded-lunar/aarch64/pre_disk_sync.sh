@@ -10,7 +10,12 @@ ln -s /boot/initrd-*-generic /boot/initrd
 #=======================================
 # Get device tree for QEMU boot
 #---------------------------------------
-# TODO: do we need one, or is the uboot provided one sufficient ?
+qemu-system-aarch64 -nographic \
+    -cpu cortex-a57 \
+    -m 1G \
+    -bios /usr/lib/u-boot/qemu_arm64/u-boot.bin \
+    -machine virt \
+    -machine dumpdtb=/boot/qemu.dtb
 
 #=======================================
 # Create fit image
@@ -22,6 +27,7 @@ ln -s /boot/initrd-*-generic /boot/initrd
 rm /boot/System.map*
 rm /boot/initrd*
 rm /boot/vmlinuz*
+rm /boot/qemu.dtb
 
 #==========================================
 # create boot.scr read by u-boot
@@ -73,7 +79,9 @@ for package in \
     python3-minimal \
     python3.10-minimal \
     perl-base \
-    debianutils
+    debianutils \
+    qemu-system-arm \
+    ipxe-qemu
 do
     rm -f /var/lib/dpkg/info/${package}*.pre*
     rm -f /var/lib/dpkg/info/${package}*.post*

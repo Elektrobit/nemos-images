@@ -35,3 +35,41 @@ Call kiwi as follows:
 
 See the `test-image-embedded-lunar.run.sh` script from your git
 checkout for details how to run the image in QEMU
+
+## How to run
+
+### x86_64
+
+Required packages:
+
+* qemu-system-x86_64 (plus KVM for better performance)
+
+Use the following command line to boot the VM:
+
+.. code:: bash
+
+    qemu-system-x86_64 \
+        -m 1G \
+        -drive file=<path-to-file-here>.qcow2,if=virtio,driver=qcow2 \
+        -nographic \
+        -serial stdio
+
+### aarch64
+
+Required packages:
+
+* qemu-system-arm
+* u-boot-qemu
+
+Use the following command line to boot the VM:
+
+.. code:: bash
+
+    qemu-system-aarch64 \
+        -m 1G \
+        -machine virt \
+        -cpu cortex-a57 \
+        -drive file=<path-to-file-here>.qcow2,if=virtio,driver=qcow2,cache=off \
+        -nographic \
+        -bios /usr/lib/u-boot/qemu_arm64/u-boot.bin \
+        -serial stdio

@@ -1,3 +1,9 @@
+test-image-embedded-lunar (1.1-2) lunar; urgency=medium
+
+  * Increase minor version to allow for new upstream tarball
+
+ -- Marcus Schäfer (EB) <marcus.schaefer@elektrobit.com> Tue, 07 Feb 2023 14:05:17 +0100
+
 test-image-embedded-lunar (1.0-2) lunar; urgency=medium
 
   * Added arm64 image description

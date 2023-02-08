@@ -52,6 +52,7 @@
         <package name="netbase"/>
         <package name="sudo"/>
         <package name="cron"/>
+        <package name="zstd"/>
         <!-- bootloader -->
         <package name="u-boot-qemu"/>
         <package name="u-boot-tools"/>

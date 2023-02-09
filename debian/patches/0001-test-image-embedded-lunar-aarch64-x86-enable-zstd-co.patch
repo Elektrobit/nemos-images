@@ -1,0 +1,82 @@
+From 3133f7260bc4c88c27295d8efe5c37d2b1d8151f Mon Sep 17 00:00:00 2001
+From: Isaac True <isaac.true@canonical.com>
+Date: Wed, 8 Feb 2023 09:52:32 +0100
+Subject: [PATCH] test-image-embedded-lunar: aarch64, x86: enable zstd
+ compression in dracut
+
+This should considerably increase the dracut initramfs generation time.
+
+LP: #2006560
+Signed-off-by: Isaac True <isaac.true@canonical.com>
+---
+ test-image-embedded-lunar/aarch64/appliance.kiwi    |  1 +
+ test-image-embedded-lunar/aarch64/post_bootstrap.sh | 12 ++++++++++++
+ test-image-embedded-lunar/x86/appliance.kiwi        |  1 +
+ test-image-embedded-lunar/x86/post_bootstrap.sh     | 12 ++++++++++++
+ 4 files changed, 26 insertions(+)
+ create mode 100755 test-image-embedded-lunar/aarch64/post_bootstrap.sh
+ create mode 100755 test-image-embedded-lunar/x86/post_bootstrap.sh
+
+diff --git a/test-image-embedded-lunar/aarch64/appliance.kiwi b/test-image-embedded-lunar/aarch64/appliance.kiwi
+index b86d30d..814ebc8 100644
+--- a/test-image-embedded-lunar/aarch64/appliance.kiwi
++++ b/test-image-embedded-lunar/aarch64/appliance.kiwi
+@@ -52,6 +52,7 @@
+         <package name="netbase"/>
+         <package name="sudo"/>
+         <package name="cron"/>
++        <package name="zstd"/>
+         <!-- bootloader -->
+         <package name="u-boot-qemu"/>
+         <package name="u-boot-tools"/>
+diff --git a/test-image-embedded-lunar/aarch64/post_bootstrap.sh b/test-image-embedded-lunar/aarch64/post_bootstrap.sh
+new file mode 100755
+index 0000000..0ad0993
+--- /dev/null
++++ b/test-image-embedded-lunar/aarch64/post_bootstrap.sh
+@@ -0,0 +1,12 @@
++#!/bin/dash
++
++set -ex
++
++#=======================================
++# Set zstd as the default compression tool for dracut initrd images
++#---------------------------------------
++
++mkdir -p /etc/dracut.conf.d/
++cat > /etc/dracut.conf.d/50-enable-zstd-compression.conf << EOF
++compress="zstd"
++EOF
+diff --git a/test-image-embedded-lunar/x86/appliance.kiwi b/test-image-embedded-lunar/x86/appliance.kiwi
+index 37be03d..0d983f1 100644
+--- a/test-image-embedded-lunar/x86/appliance.kiwi
++++ b/test-image-embedded-lunar/x86/appliance.kiwi
+@@ -52,6 +52,7 @@
+         <package name="netbase"/>
+         <package name="sudo"/>
+         <package name="cron"/>
++        <package name="zstd"/>
+         <!-- bootloader -->
+         <package name="grub-common" arch="x86_64"/>
+         <package name="grub2-common" arch="x86_64"/>
+diff --git a/test-image-embedded-lunar/x86/post_bootstrap.sh b/test-image-embedded-lunar/x86/post_bootstrap.sh
+new file mode 100755
+index 0000000..0ad0993
+--- /dev/null
++++ b/test-image-embedded-lunar/x86/post_bootstrap.sh
+@@ -0,0 +1,12 @@
++#!/bin/dash
++
++set -ex
++
++#=======================================
++# Set zstd as the default compression tool for dracut initrd images
++#---------------------------------------
++
++mkdir -p /etc/dracut.conf.d/
++cat > /etc/dracut.conf.d/50-enable-zstd-compression.conf << EOF
++compress="zstd"
++EOF
+-- 
+2.34.1
+

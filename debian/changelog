@@ -1,3 +1,9 @@
+test-image-embedded-lunar (1.1-3) lunar; urgency=medium
+
+  * 0001-test-image-embedded-lunar-aarch64-x86-enable-zstd-co.patch
+
+ -- Marcus Schäfer (EB) <marcus.schaefer@elektrobit.com> Thu, 09 Feb 2023 09:42:39 +0100
+
 test-image-embedded-lunar (1.1-2) lunar; urgency=medium
 
   * Increase minor version to allow for new upstream tarball

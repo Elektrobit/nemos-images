@@ -18,18 +18,16 @@ Create a custom `/etc/kiwi.yml`:
 
 .. code:: yaml
 
-    runtime_checks:
-      - disable:
-          - check_dracut_module_for_disk_overlay_in_package_list
 
-    mapper:
-      - part_mapper: kpartx
+The `kiwi.yaml` file included in this directory should be used as the config
+file for building these images using Kiwi.
 
 Call kiwi as follows:
 
 .. code:: bash
 
-    sudo kiwi-ng system build \
+    sudo kiwi-ng --config PATH/TO/test-image-embedded-lunar/kiwi.yaml \
+        system build \
         --description PATH/TO/test-image-embedded-lunar/x86 \
         --target-dir /var/tmp/my_lunar
 

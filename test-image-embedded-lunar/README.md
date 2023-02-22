@@ -14,10 +14,24 @@ following layout:
 
 ## How To Build
 
-Create a custom `/etc/kiwi.yml`:
+Building these Ubuntu 23.04 based images requires running Kiwi inside of an
+Ubuntu 23.04 based system. Kiwi to be able to mount and manipulate loop devices
+while building the image, and many steps require root permissions. Some
+container runtimes (such as LXD) do not allow access to loop devices for
+security reasons, so Kiwi should generally be built inside a virtual machine or
+natively. Alternatively, a privileged `docker` or `podman` container instance
+can be used for building.
 
-.. code:: yaml
+Required packages:
 
+* `kiwi`
+* `rsync`
+* `xz-utils`
+* `qemu-utils`
+* `gdisk`
+* `fdisk`
+* `kpartx`
+* `squashfs-tools`
 
 The `kiwi.yaml` file included in this directory should be used as the config
 file for building these images using Kiwi.
@@ -31,16 +45,13 @@ Call kiwi as follows:
         --description PATH/TO/test-image-embedded-lunar/x86 \
         --target-dir /var/tmp/my_lunar
 
-See the `test-image-embedded-lunar.run.sh` script from your git
-checkout for details how to run the image in QEMU
-
 ## How to run
 
 ### x86_64
 
 Required packages:
 
-* qemu-system-x86_64 (plus KVM for better performance)
+* `qemu-system-x86_64` (plus KVM for better performance)
 
 Use the following command line to boot the VM:
 
@@ -56,8 +67,8 @@ Use the following command line to boot the VM:
 
 Required packages:
 
-* qemu-system-arm
-* u-boot-qemu
+* `qemu-system-arm`
+* `u-boot-qemu`
 
 Use the following command line to boot the VM:
 

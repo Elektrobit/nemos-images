@@ -45,6 +45,28 @@ Call kiwi as follows:
         --description PATH/TO/test-image-embedded-lunar/x86 \
         --target-dir /var/tmp/my_lunar
 
+There are two ways of building the images: with debootstrap (default), or by
+using a prebuilt bootstrap archive. The method used for building is determined
+by the profiles feature of the Kiwi appliance definitions.
+
+The default debootstrap method is useful for generating a clean build using
+the most up-to-date packages sourced from the Ubuntu archives, while the
+bootstrap method is useful for quick and reproducible builds.
+
+To use the bootstrap method, add `--profile bootstrapped` to the Kiwi command
+line call, immediately before `system build`. For example:
+
+.. code:: bash
+
+    sudo kiwi-ng --config PATH/TO/test-image-embedded-lunar/kiwi.yaml \
+        --profile bootstrapped \
+        system build \
+        --description PATH/TO/test-image-embedded-lunar/x86 \
+        --target-dir /var/tmp/my_lunar
+
+The debootstrap method can be used by either passing `--profile default` in the
+same manner, or by omitting the profile parameter.
+
 ## How to run
 
 ### x86_64

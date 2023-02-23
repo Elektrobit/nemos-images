@@ -41,10 +41,10 @@
         <source path="http://security.ubuntu.com/ubuntu"/>
     </repository>
     <repository type="apt-deb" alias="Lunar-updates" distribution="lunar-updates" components="main multiverse restricted universe" repository_gpgcheck="false">
-        <source path="http://us.archive.ubuntu.com/ubuntu/"/>
+        <source path="http://archive.ubuntu.com/ubuntu/"/>
     </repository>
     <repository type="apt-deb" alias="Lunar" distribution="lunar" components="main multiverse restricted universe" repository_gpgcheck="false">
-        <source path="http://us.archive.ubuntu.com/ubuntu/"/>
+        <source path="http://archive.ubuntu.com/ubuntu/"/>
     </repository>
 
     <packages type="image">

@@ -1,14 +1,17 @@
-Source: test-image-embedded-lunar
+Source: nemos-images
 Section: devel
 Priority: optional
-Maintainer: Marcus Schaefer <marcus.schaefer@elektrobit.com>
-Build-Depends: debhelper-compat (= 13)
+Maintainer: nemOS Team <nemos-team@lists.launchpad.net>
+Build-Depends:
+ debhelper-compat (= 13),
 Standards-Version: 4.6.0
-Homepage: https://osinside.github.io/kiwi
+Homepage: https://launchpad.net/nemos
 Rules-Requires-Root: no
 
-Package: test-image-embedded-lunar
+Package: nemos-images-embedded-lunar
 Architecture: all
-Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: EBCL - NautilOS Community Image (Lunar)
- Lunar image descriptions for embedded targets
+Depends:
+ ${shlibs:Depends},
+ ${misc:Depends},
+Description: Kiwi nemOS appliance descriptions
+ Lunar image descriptions for embedded targets for use with Kiwi

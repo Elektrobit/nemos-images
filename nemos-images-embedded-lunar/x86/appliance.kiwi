@@ -7,6 +7,11 @@
         <specification>x86 grub disk test build that applies several aspects of embedded images</specification>
     </description>
 
+    <profiles>
+        <profile name="bootstrapped" description="build the image using a bootstrap archive"/>
+        <profile name="default" description="build the image using debootstrap" import="true"/>
+    </profiles>
+
     <preferences>
         <version>1.0.1</version>
         <packagemanager>apt</packagemanager>
@@ -29,8 +34,8 @@
         <user password="$1$wYJUgpM5$RXMMeASDc035eX.NbYWFl0" home="/home/admin" name="admin" groups="users" shell="/bin/ash"/>
     </users>
 
-    <repository type="apt-deb" alias="Lunar-ppa" distribution="lunar" components="main" repository_gpgcheck="false">
-        <source path="https://schaefi:tZsV4wBHS14ZwmQ7VkSZ@private-ppa.launchpadcontent.net/erlangen-team/ebcl-test/ubuntu"/>
+    <repository type="apt-deb" alias="Lunar-Bootstrap-PPA" distribution="lunar" components="main" repository_gpgcheck="false" profiles="bootstrapped">
+        <source path="https://ppa.launchpadcontent.net/nemos-team/bootstrap/ubuntu"/>
     </repository>
     <repository type="apt-deb" alias="Lunar-security" distribution="lunar-security" components="main multiverse restricted universe" repository_gpgcheck="false">
         <source path="http://security.ubuntu.com/ubuntu"/>
@@ -64,5 +69,8 @@
         <package name="busybox-static"/>
     </packages>
 
-    <packages type="bootstrap" bootstrap_package="kiwi-bootstrap-lunar"/>
+    <packages type="bootstrap" bootstrap_package="kiwi-bootstrap-lunar" profiles="bootstrapped"/>
+    <packages type="bootstrap" profiles="default">
+        <package name="usrmerge"/>
+    </packages>
 </image>

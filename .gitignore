@@ -1,5 +1,4 @@
 debian/.debhelper/
 debian/debhelper-build-stamp
 debian/files
-debian/nautilos-images-canonical.substvars
-debian/nautilos-images-canonical/
+debian/nemos-images*/*

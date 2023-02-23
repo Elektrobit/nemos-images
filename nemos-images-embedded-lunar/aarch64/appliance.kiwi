@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<image schemaversion="7.4" name="test-image-embedded-lunar">
+<image schemaversion="7.4" name="nemos-image-embedded-lunar">
     <description type="system">
-        <author>Marcus Schäfer</author>
-        <contact>marcus.schaefer@elektrobit.com</contact>
-        <specification>x86 grub disk test build that applies several aspects of embedded images</specification>
+        <author>nemOS Team</author>
+        <contact>nemos-team@lists.launchpad.net</contact>
+        <specification>QEMU arm disk test build that applies several aspects of embedded images</specification>
     </description>
 
     <preferences>
         <version>1.0.1</version>
         <packagemanager>apt</packagemanager>
-        <type image="oem" filesystem="ext2" firmware="custom" initrd_system="dracut" overlayroot="true" overlayroot_write_partition="false" overlayroot_readonly_partsize="43" bootpartition="true" bootpartsize="77" format="qcow2">
-            <bootloader name="grub2"/>
+        <type image="oem" filesystem="ext2" firmware="custom" initrd_system="dracut" overlayroot="true" overlayroot_write_partition="false" overlayroot_readonly_partsize="46" bootpartition="true" bootpartsize="79" format="qcow2" editbootinstall="uboot_install">
+            <bootloader name="custom"/>
             <oemconfig>
                 <oem-resize>false</oem-resize>
             </oemconfig>
             <size unit="M">128</size>
             <partitions>
-                <partition name="home" size="5" mountpoint="/home" filesystem="ext2"/>
+                <partition name="home" size="1" mountpoint="/home" filesystem="ext2"/>
             </partitions>
         </type>
     </preferences>
@@ -33,13 +33,13 @@
         <source path="https://schaefi:tZsV4wBHS14ZwmQ7VkSZ@private-ppa.launchpadcontent.net/erlangen-team/ebcl-test/ubuntu"/>
     </repository>
     <repository type="apt-deb" alias="Lunar-security" distribution="lunar-security" components="main multiverse restricted universe" repository_gpgcheck="false">
-        <source path="http://security.ubuntu.com/ubuntu"/>
+        <source path="http://de.ports.ubuntu.com/"/>
     </repository>
     <repository type="apt-deb" alias="Lunar-updates" distribution="lunar-updates" components="main multiverse restricted universe" repository_gpgcheck="false">
-        <source path="http://us.archive.ubuntu.com/ubuntu/"/>
+        <source path="http://de.ports.ubuntu.com/"/>
     </repository>
     <repository type="apt-deb" alias="Lunar" distribution="lunar" components="main multiverse restricted universe" repository_gpgcheck="false">
-        <source path="http://us.archive.ubuntu.com/ubuntu/"/>
+        <source path="http://de.ports.ubuntu.com/"/>
     </repository>
 
     <packages type="image">
@@ -54,9 +54,11 @@
         <package name="cron"/>
         <package name="zstd"/>
         <!-- bootloader -->
-        <package name="grub-common" arch="x86_64"/>
-        <package name="grub2-common" arch="x86_64"/>
-        <package name="grub-pc-bin" arch="x86_64"/>
+        <package name="u-boot-qemu"/>
+        <package name="u-boot-tools"/>
+        <package name="device-tree-compiler"/>
+        <package name="qemu-system-arm"/>
+        <package name="ipxe-qemu"/>
         <!-- system -->
         <package name="systemd"/>
         <package name="dracut"/>

@@ -1,10 +1,10 @@
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
-Upstream-Name: nautilos-images-canonical
-Upstream-Contact: Marcus Schaefer <marcus.schaefer@elektrobit.com>
-Source: <https://osinside.github.io/kiwi>
+Upstream-Name: nemos-images
+Upstream-Contact: nemOS Team <nemos-team@lists.launchpad.net>
+Source: <https://launchpad.net/nemos>
 
 Files: *
-Copyright: 2023 Elektrobit <marcus.schaefer@elektrobit.com>
+Copyright: 2023 nemOS Team <nemos-team@lists.launchpad.net>
 License: GPL-2+
  This package is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by

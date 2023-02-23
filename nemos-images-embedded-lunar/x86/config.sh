@@ -40,9 +40,8 @@ rm -rf /usr/lib/x86_64-linux-gnu/gconv
 #==================================
 # Create init symlink
 #----------------------------------
-pushd /usr/sbin
-ln -s ../lib/systemd/systemd init
-popd
+rm -f /sbin/init
+ln -rs /lib/systemd/systemd /sbin/init
 
 #==================================
 # Mask/Disable services

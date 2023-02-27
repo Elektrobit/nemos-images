@@ -1,4 +1,5 @@
 #!/bin/bash
+# SPDX-License-Identifier: GPL-2.0-or-later
 
 if [ -d /var/tmp/my_lunar ];then
     # target-dir used in README.rst

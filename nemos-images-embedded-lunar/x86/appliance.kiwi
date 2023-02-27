@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- SPDX-License-Identifier: GPL-2.0-or-later -->
 
 <image schemaversion="7.4" name="nemos-image-embedded-lunar">
     <description type="system">

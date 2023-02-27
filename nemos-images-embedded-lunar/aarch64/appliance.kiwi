@@ -8,6 +8,11 @@
         <specification>QEMU arm disk test build that applies several aspects of embedded images</specification>
     </description>
 
+    <profiles>
+        <profile name="bootstrapped" description="build the image using a bootstrap archive"/>
+        <profile name="default" description="build the image using debootstrap" import="true"/>
+    </profiles>
+
     <preferences>
         <version>1.0.1</version>
         <packagemanager>apt</packagemanager>
@@ -67,5 +72,8 @@
         <package name="busybox-static"/>
     </packages>
 
-    <packages type="bootstrap" bootstrap_package="kiwi-bootstrap-lunar"/>
+    <packages type="bootstrap" bootstrap_package="kiwi-bootstrap-lunar" profiles="bootstrapped"/>
+    <packages type="bootstrap" profiles="default">
+        <package name="usrmerge"/>
+    </packages>
 </image>

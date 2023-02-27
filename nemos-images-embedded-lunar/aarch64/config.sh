@@ -28,7 +28,11 @@ rm -f /boot/vmlinuz.old
 #----------------------------------
 rm -rf /var/backups
 rm -rf /usr/share/man
-rm -rf /usr/share/doc/*
+
+#==================================
+# Delete docs but retain copyright notices
+#----------------------------------
+find /usr/share/doc/ ! -iname copyright -delete 2> /dev/null || true
 
 #==================================
 # Create init symlink

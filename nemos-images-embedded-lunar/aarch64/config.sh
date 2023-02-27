@@ -39,9 +39,8 @@ find /usr/share/doc/ ! -iname copyright -delete 2> /dev/null || true
 #==================================
 # Create init symlink
 #----------------------------------
-pushd /usr/sbin
-ln -s ../lib/systemd/systemd init
-popd
+rm -f /sbin/init
+ln -rs /lib/systemd/systemd /sbin/init
 
 #==================================
 # Mask/Disable services

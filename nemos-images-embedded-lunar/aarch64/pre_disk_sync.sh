@@ -40,9 +40,9 @@ mkimage -A arm64 -O linux -T script -C none -d /boot/boot.cmd \
 # Force delete packages not needed/wanted
 #---------------------------------------
 for package in \
-    linux-modules-5.19.0-21-generic \
-    linux-modules-extra-5.19.0-21-generic \
-    linux-headers-5.19.0-21 \
+    $(apt list --installed | grep ^linux-headers | cut -f 1 -d/) \
+    $(apt list --installed | grep ^linux-modules | cut -f 1 -d/) \
+    linux-image-generic \
     linux-firmware \
     coreutils \
     tar \

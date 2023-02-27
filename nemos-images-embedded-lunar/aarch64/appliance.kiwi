@@ -34,13 +34,13 @@
         <source path="https://schaefi:tZsV4wBHS14ZwmQ7VkSZ@private-ppa.launchpadcontent.net/erlangen-team/ebcl-test/ubuntu"/>
     </repository>
     <repository type="apt-deb" alias="Lunar-security" distribution="lunar-security" components="main multiverse restricted universe" repository_gpgcheck="false">
-        <source path="http://de.ports.ubuntu.com/"/>
+        <source path="http://ports.ubuntu.com/"/>
     </repository>
     <repository type="apt-deb" alias="Lunar-updates" distribution="lunar-updates" components="main multiverse restricted universe" repository_gpgcheck="false">
-        <source path="http://de.ports.ubuntu.com/"/>
+        <source path="http://ports.ubuntu.com/"/>
     </repository>
     <repository type="apt-deb" alias="Lunar" distribution="lunar" components="main multiverse restricted universe" repository_gpgcheck="false">
-        <source path="http://de.ports.ubuntu.com/"/>
+        <source path="http://ports.ubuntu.com/"/>
     </repository>
 
     <packages type="image">

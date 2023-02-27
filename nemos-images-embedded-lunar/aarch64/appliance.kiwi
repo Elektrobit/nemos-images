@@ -35,8 +35,8 @@
         <user password="$1$wYJUgpM5$RXMMeASDc035eX.NbYWFl0" home="/home/admin" name="admin" groups="users" shell="/bin/ash"/>
     </users>
 
-    <repository type="apt-deb" alias="Lunar-ppa" distribution="lunar" components="main" repository_gpgcheck="false">
-        <source path="https://schaefi:tZsV4wBHS14ZwmQ7VkSZ@private-ppa.launchpadcontent.net/erlangen-team/ebcl-test/ubuntu"/>
+    <repository type="apt-deb" alias="Lunar-Bootstrap-PPA" distribution="lunar" components="main" repository_gpgcheck="false" profiles="bootstrapped">
+        <source path="https://ppa.launchpadcontent.net/nemos-team/bootstrap/ubuntu"/>
     </repository>
     <repository type="apt-deb" alias="Lunar-security" distribution="lunar-security" components="main multiverse restricted universe" repository_gpgcheck="false">
         <source path="http://ports.ubuntu.com/"/>

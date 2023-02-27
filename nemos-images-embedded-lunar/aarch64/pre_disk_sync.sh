@@ -128,3 +128,9 @@ ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
 # Relink /var/lib/dhcp to /run (rw)
 #---------------------------------------
 (cd /var/lib && rm -rf dhcp && ln -s /run dhcp)
+
+#=======================================
+# Remove all apt caches
+#---------------------------------------
+rm -rf /var/cache/apt
+rm -rf /var/lib/apt/lists

@@ -1,7 +1,9 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+
 Source: nemos-images
 Section: devel
 Priority: optional
-Maintainer: nemOS Team <nemos-team@lists.launchpad.net>
+Maintainer: NemOS Team <nemos-team@lists.launchpad.net>
 Build-Depends:
  debhelper-compat (= 13),
 Standards-Version: 4.6.0

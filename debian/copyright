@@ -1,10 +1,15 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: nemos-images
-Upstream-Contact: nemOS Team <nemos-team@lists.launchpad.net>
+Upstream-Contact: NemOS Team <nemos-team@lists.launchpad.net>
 Source: <https://launchpad.net/nemos>
 
 Files: *
-Copyright: 2023 nemOS Team <nemos-team@lists.launchpad.net>
+Copyright:
+ 2023 NemOS Team <nemos-team@lists.launchpad.net>,
+ 2023 Isaac True <isaac.true@canonical.com>,
+ 2023 Elektrobit <marcus.schaefer@elektrobit.com>,
 License: GPL-2+
  This package is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by

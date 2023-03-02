@@ -16,14 +16,14 @@
     <preferences>
         <version>1.0.1</version>
         <packagemanager>apt</packagemanager>
-        <type image="oem" filesystem="ext2" firmware="custom" initrd_system="dracut" overlayroot="true" overlayroot_write_partition="false" overlayroot_readonly_partsize="46" bootpartition="true" bootpartsize="79" format="qcow2" editbootinstall="uboot_install">
+        <type image="oem" filesystem="ext2" firmware="custom" initrd_system="dracut" overlayroot="true" overlayroot_write_partition="false" overlayroot_readonly_partsize="62" bootpartition="true" bootpartsize="100" format="qcow2" editbootinstall="uboot_install">
             <bootloader name="custom"/>
             <oemconfig>
                 <oem-resize>false</oem-resize>
             </oemconfig>
-            <size unit="M">128</size>
+            <size unit="M">256</size>
             <partitions>
-                <partition name="home" size="1" mountpoint="/home" filesystem="ext2"/>
+                <partition name="home" size="5" mountpoint="/home" filesystem="ext2"/>
             </partitions>
         </type>
     </preferences>
@@ -35,6 +35,9 @@
         <user password="$1$wYJUgpM5$RXMMeASDc035eX.NbYWFl0" home="/home/admin" name="admin" groups="users" shell="/bin/ash"/>
     </users>
 
+    <repository type="apt-deb" alias="KIWI-builder" repository_gpgcheck="false" package_gpgcheck="false">
+        <source path="obs://Virtualization:Appliances:Builder/xUbuntu_22.04"/>
+    </repository>
     <repository type="apt-deb" alias="Lunar-Bootstrap-PPA" distribution="lunar" components="main" repository_gpgcheck="false" profiles="bootstrapped">
         <source path="https://ppa.launchpadcontent.net/nemos-team/bootstrap/ubuntu"/>
     </repository>
@@ -67,9 +70,12 @@
         <package name="ipxe-qemu"/>
         <!-- system -->
         <package name="systemd"/>
+        <package name="networkd-dispatcher"/>
+        <package name="dbus"/>
         <package name="dracut"/>
         <package name="locales"/>
         <package name="busybox-static"/>
+        <package name="dracut-kiwi-overlay"/>
     </packages>
 
     <packages type="bootstrap" bootstrap_package="kiwi-bootstrap-lunar" profiles="bootstrapped"/>

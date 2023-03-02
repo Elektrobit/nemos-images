@@ -1,9 +1,40 @@
-#!/bin/dash
+#!/bin/bash
 # SPDX-License-Identifier: GPL-2.0-or-later
-
+#
+# update the root reference to use PARTUUID in the boot.cmd
+# Install uboot to the target
+#
 set -ex
 
 diskname=$1
+
+root_device=$2
+
+loop_name=$(basename $root_device | cut -f 1-2 -d'p')
+
+disk_device=/dev/${loop_name}
+
+# mount boot part
+boot=$(mktemp -d /tmp/bootmount-XXX)
+mount /dev/mapper/${loop_name}p1 $boot || exit 1
+
+# get root PARTUUID
+root_partuuid=$(blkid -s PARTUUID -o value /dev/mapper/${loop_name}p3)
+
+# create uboot boot.cmd
+cat << EOF > $boot/boot.cmd
+setenv loadaddr 0x58000000
+setenv bootargs "root=overlay:PARTUUID=$root_partuuid rootwait rd.root.overlay.readonly rw"
+load virtio 0:1 ${loadaddr} bootargs.itb
+bootm
+EOF
+
+# create boot.scr read by u-boot
+mkimage -A arm64 -O linux -T script -C none -d $boot/boot.cmd \
+    $boot/boot.scr
+
+# umount boot part
+umount $boot && rmdir $boot
 
 # Dump u-boot image...
 #

@@ -30,12 +30,6 @@ rm /boot/initrd*
 rm /boot/vmlinuz*
 rm /boot/qemu.dtb
 
-#==========================================
-# create boot.scr read by u-boot
-#------------------------------------------
-mkimage -A arm64 -O linux -T script -C none -d /boot/boot.cmd \
-    /boot/boot.scr
-
 #=======================================
 # Force delete packages not needed/wanted
 #---------------------------------------

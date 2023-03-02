@@ -35,9 +35,6 @@
         <user password="$1$wYJUgpM5$RXMMeASDc035eX.NbYWFl0" home="/home/admin" name="admin" groups="users" shell="/bin/ash"/>
     </users>
 
-    <repository type="apt-deb" alias="KIWI-builder" repository_gpgcheck="false" package_gpgcheck="false">
-        <source path="obs://Virtualization:Appliances:Builder/xUbuntu_22.04"/>
-    </repository>
     <repository type="apt-deb" alias="Lunar-Bootstrap-PPA" distribution="lunar" components="main" repository_gpgcheck="false" profiles="bootstrapped">
         <source path="https://ppa.launchpadcontent.net/nemos-team/bootstrap/ubuntu"/>
     </repository>
@@ -75,7 +72,7 @@
         <package name="dracut"/>
         <package name="locales"/>
         <package name="busybox-static"/>
-        <package name="dracut-kiwi-overlay"/>
+        <package name="kiwi-dracut-overlay"/>
     </packages>
 
     <packages type="bootstrap" bootstrap_package="kiwi-bootstrap-lunar" profiles="bootstrapped"/>

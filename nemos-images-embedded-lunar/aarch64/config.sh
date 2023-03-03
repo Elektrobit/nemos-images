@@ -30,6 +30,7 @@ rm -f /boot/vmlinuz.old
 #----------------------------------
 rm -rf /var/backups
 rm -rf /usr/share/man
+rm -rf /usr/share/i18n
 
 #==================================
 # Delete docs but retain copyright notices
@@ -53,7 +54,8 @@ for service in \
     grub-common.service \
     grub-initrd-fallback.service \
     systemd-resolved.service \
-    e2scrub_reap.service
+    e2scrub_reap.service \
+    systemd-logind.service
 do
     systemctl mask "${service}"
 done

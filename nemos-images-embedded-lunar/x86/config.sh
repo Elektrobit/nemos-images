@@ -13,12 +13,6 @@ set -ex
 baseSetRunlevel 3
 
 #==================================
-# Turn grub-mkconfig into a noop
-#----------------------------------
-# We provide our own static version of the grub config
-cp /bin/true /usr/sbin/grub-mkconfig
-
-#==================================
 # Allow suid tools with busybox
 #----------------------------------
 chmod u+s /usr/bin/busybox
@@ -35,6 +29,7 @@ rm -f /boot/vmlinuz.old
 #----------------------------------
 rm -rf /var/backups
 rm -rf /usr/share/man
+rm -rf /usr/share/i18n
 rm -rf /usr/lib/x86_64-linux-gnu/gconv
 
 #==================================
@@ -59,7 +54,8 @@ for service in \
     grub-common.service \
     grub-initrd-fallback.service \
     systemd-resolved.service \
-    e2scrub_reap.service
+    e2scrub_reap.service \
+    systemd-logind.service
 do
     systemctl mask "${service}"
 done

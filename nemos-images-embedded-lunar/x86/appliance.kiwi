@@ -16,12 +16,12 @@
     <preferences>
         <version>1.0.1</version>
         <packagemanager>apt</packagemanager>
-        <type image="oem" filesystem="ext2" firmware="custom" initrd_system="dracut" overlayroot="true" overlayroot_write_partition="false" overlayroot_readonly_partsize="43" bootpartition="true" bootpartsize="77" format="qcow2">
+        <type image="oem" filesystem="ext2" firmware="efi" initrd_system="dracut" overlayroot="true" overlayroot_write_partition="false" overlayroot_readonly_partsize="62" bootpartition="true" bootpartsize="120" format="qcow2" devicepersistency="by-partuuid" kernelcmdline="console=ttyS0 rd.root.overlay.readonly">
             <bootloader name="grub2"/>
             <oemconfig>
                 <oem-resize>false</oem-resize>
             </oemconfig>
-            <size unit="M">128</size>
+            <size unit="M">256</size>
             <partitions>
                 <partition name="home" size="5" mountpoint="/home" filesystem="ext2"/>
             </partitions>
@@ -63,11 +63,15 @@
         <package name="grub-common" arch="x86_64"/>
         <package name="grub2-common" arch="x86_64"/>
         <package name="grub-pc-bin" arch="x86_64"/>
+        <package name="grub-efi-amd64-bin" arch="x86_64"/>
         <!-- system -->
         <package name="systemd"/>
+        <package name="networkd-dispatcher"/>
+        <package name="dbus"/>
         <package name="dracut"/>
         <package name="locales"/>
         <package name="busybox-static"/>
+        <package name="kiwi-dracut-overlay"/>
     </packages>
 
     <packages type="bootstrap" bootstrap_package="kiwi-bootstrap-lunar" profiles="bootstrapped"/>

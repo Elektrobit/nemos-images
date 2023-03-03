@@ -16,7 +16,7 @@
     <preferences>
         <version>1.0.1</version>
         <packagemanager>apt</packagemanager>
-        <type image="oem" filesystem="ext2" firmware="custom" initrd_system="dracut" overlayroot="true" overlayroot_write_partition="false" overlayroot_readonly_partsize="62" bootpartition="true" bootpartsize="100" format="qcow2" editbootinstall="overlay_partuuid.sh">
+        <type image="oem" filesystem="ext2" firmware="efi" initrd_system="dracut" overlayroot="true" overlayroot_write_partition="false" overlayroot_readonly_partsize="62" bootpartition="true" bootpartsize="120" format="qcow2" devicepersistency="by-partuuid" kernelcmdline="console=ttyS0 rd.root.overlay.readonly">
             <bootloader name="grub2"/>
             <oemconfig>
                 <oem-resize>false</oem-resize>
@@ -63,6 +63,7 @@
         <package name="grub-common" arch="x86_64"/>
         <package name="grub2-common" arch="x86_64"/>
         <package name="grub-pc-bin" arch="x86_64"/>
+        <package name="grub-efi-amd64-bin" arch="x86_64"/>
         <!-- system -->
         <package name="systemd"/>
         <package name="networkd-dispatcher"/>

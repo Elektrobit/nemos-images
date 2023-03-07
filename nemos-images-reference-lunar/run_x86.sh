@@ -7,6 +7,9 @@ fi
 
 qemu-system-x86_64 \
     -m 1G \
+    --enable-kvm \
+    --smp 2 \
+    --cpu host \
     -nographic \
     -M q35 \
     -bios /usr/share/qemu/OVMF.fd \

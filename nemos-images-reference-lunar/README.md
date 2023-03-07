@@ -1,11 +1,66 @@
 # nemos-image-reference-lunar
 
-## Motivation
+## Overview
 
 Provides disk test build of a base reference image using standard
-distro components. The image offers the following layout:
+distro components. The image offers the following features:
 
-* TODO
+* Hybrid GPT/MBR partition scheme
+* EFI boot
+* Readonly root partition with a read/write-capable overlay
+* Option to build with various profiles
+  * `default`: build with the default configuration using debootstrap
+  * `bootstrapped`: build with a prebuilt rootfs bootstrap archive
+  * `development`: similar to `bootstrapped`, with additional tools to aid
+    development, such as `snapd`
+
+## Storage Architecture
+
+This reference image utilises a fairly complex storage architecture in order to
+demonstrate many advanced storage features of both Kiwi and NemOS, which
+includes the following features:
+
+* Readonly squashfs root partition backed by `dm-verity`
+* Read/write-capable XFS overlay for the root partition using `overlayfs`,
+  backed by `dm-integrity`
+* Additional read/write-capable XFS partition for OCI containers
+* Additional read-only squashfs partition for preloaded OCI containers
+* Small ext4 partition for `/home` which is independent of the overlayfs setup
+
+The combined structure of the root filesystem is quite complicated, but
+provides a number of benefits. Primarily, using a read/write-capable overlay
+allows the target to easily be reset back to factory defaults and/or to a known
+configuration, without reflashing the device. This specific constellation of
+device mappings and mounts also provides high levels of protection against
+normally invisible data corruption.
+
+While SquashFS does provide some protection against data corruption through the
+use of a checksum, `dm-verity` provides additional validation and security
+protection against potential attackers by using block-level hash checks and a
+cryptographic key to sign the data used to verify the integrity of the device.
+
+Similarly, `dm-integrity` provides a read/writable block-level integrity
+verification layer for the read/write root overlay. This ensures that both the
+original SquashFS root filesystem and the read/write overlay are protected
+against bit-rot and data corruption.
+
+The storage architecture of the root filesystem can be represented using the
+following diagram:
+
+```
+            mount: /
+            filesystem: overlayfs
+        /                          \
+        |                          |
+    dm-verity                  dm-integrity
+        |                          |
+        |                          |
+PARTLABEL=p.lxreadonly     PARTLABEL=p.lxroot
+filesystem: squashfs       filesystem: xfs
+```
+
+The `dm-verity` and `dm-integrity` device mappings are both set up during the
+boot process by the initrd, which then also combines them using `overlayfs`.
 
 ## How To Build
 
@@ -31,19 +86,19 @@ Required packages:
 * `cryptsetup-bin`
 * `ssl-cert`
 * `dosfstools`
-* `jing` (optional, for schema validation)
+* `jing` (optional, for Kiwi XML schema validation during development)
 
 The `kiwi.yaml` file included in this directory should be used as the config
 file for building these images using Kiwi.
 
 Call kiwi as follows:
 
-.. code:: bash
-
-    sudo kiwi-ng --config PATH/TO/test-image-embedded-lunar/kiwi.yaml \
-        system build \
-        --description PATH/TO/test-image-embedded-lunar/x86 \
-        --target-dir /var/tmp/my_lunar
+```
+sudo kiwi-ng --config PATH/TO/test-image-reference-lunar/kiwi.yaml \
+    system build \
+    --description PATH/TO/test-image-reference-lunar/x86 \
+    --target-dir /var/tmp/my_lunar
+```
 
 There are two ways of building the images: with debootstrap (default), or by
 using a prebuilt bootstrap archive. The method used for building is determined
@@ -56,16 +111,21 @@ bootstrap method is useful for quick and reproducible builds.
 To use the bootstrap method, add `--profile bootstrapped` to the Kiwi command
 line call, immediately before `system build`. For example:
 
-.. code:: bash
-
-    sudo kiwi-ng --config PATH/TO/test-image-embedded-lunar/kiwi.yaml \
-        --profile bootstrapped \
-        system build \
-        --description PATH/TO/test-image-embedded-lunar/x86 \
-        --target-dir /var/tmp/my_lunar
+```
+sudo kiwi-ng --config PATH/TO/test-image-reference-lunar/kiwi.yaml \
+    --profile bootstrapped \
+    system build \
+    --description PATH/TO/test-image-reference-lunar/x86 \
+    --target-dir /var/tmp/my_lunar
+```
 
 The debootstrap method can be used by either passing `--profile default` in the
 same manner, or by omitting the profile parameter.
+
+The `development` profile can be used to add additional packages which aid
+development and testing, such as `snapd`. This profile uses the same
+bootstrap archive as the `bootstrapped` profile in order to provide quicker
+build times.
 
 ## How to run
 
@@ -73,14 +133,8 @@ same manner, or by omitting the profile parameter.
 
 Required packages:
 
-* `qemu-system-x86_64` (plus KVM for better performance)
+* `qemu-system-x86_64`
+* `ovmf` (UEFI firmware)
 
-Use the following command line to boot the VM:
-
-.. code:: bash
-
-    qemu-system-x86_64 \
-        -m 1G \
-        -drive file=<path-to-file-here>.qcow2,if=virtio,driver=qcow2 \
-        -nographic \
-        -serial stdio
+The `run_x86.sh` script can be used to quickly execute the virtual machine with
+the correct configuration.

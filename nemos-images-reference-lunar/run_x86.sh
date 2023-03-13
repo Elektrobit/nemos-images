@@ -6,10 +6,14 @@ if [ -d /var/tmp/my_lunar ];then
     pushd /var/tmp/my_lunar
 fi
 
-qemu-kvm \
-    -m 4096 \
-    -display none \
+qemu-system-x86_64 \
+    -m 1G \
+    --enable-kvm \
+    --smp 2 \
+    --cpu host \
+    -nographic \
+    -M q35 \
+    -bios /usr/share/qemu/OVMF.fd \
     -netdev user,id=user0,hostfwd=tcp::10022-:22 \
     -device virtio-net-pci,netdev=user0 \
-    -serial stdio \
-    -drive file=test-image-embedded-lunar.x86_64-1.0.1.qcow2,if=virtio
+    -drive file=nemos-image-reference-lunar.x86_64-1.0.1.qcow2,if=virtio

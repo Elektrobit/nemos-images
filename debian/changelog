@@ -1,3 +1,9 @@
+nemos-images (1.1) lunar; urgency=medium
+
+  * Add nemos-images-reference-lunar.
+
+ -- Isaac True <isaac.true@canonical.com>  Mon, 06 Mar 2023 15:57:12 +0100
+
 nemos-images (1.0) lunar; urgency=medium
 
   * Initial release of the nemos-images series of packages.

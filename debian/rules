@@ -13,7 +13,8 @@
 #export DEB_LDFLAGS_MAINT_APPEND = -Wl,--as-needed
 
 IMAGES := \
-	nemos-images-embedded-lunar
+	nemos-images-embedded-lunar \
+	nemos-images-reference-lunar
 
 override_dh_auto_build:
 

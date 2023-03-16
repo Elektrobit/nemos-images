@@ -22,7 +22,7 @@ includes the following features:
 
 * Readonly squashfs root partition backed by `dm-verity`
 * Read/write-capable XFS overlay for the root partition using `overlayfs`,
-  backed by `dm-integrity`
+  encrypted with `dm-crypt` and backed by `dm-integrity`
 * Additional read/write-capable XFS partition for OCI containers
 * Additional read-only squashfs partition for preloaded OCI containers
 * Small ext4 partition for `/home` which is independent of the overlayfs setup
@@ -39,10 +39,18 @@ use of a checksum, `dm-verity` provides additional validation and security
 protection against potential attackers by using block-level hash checks and a
 cryptographic key to sign the data used to verify the integrity of the device.
 
-Similarly, `dm-integrity` provides a read/writable block-level integrity
-verification layer for the read/write root overlay. This ensures that both the
-original SquashFS root filesystem and the read/write overlay are protected
-against bit-rot and data corruption.
+The overlay partition encrypted with `dm-crypt` uses the insecure passphrase
+`insecure`, which is only used for demonstration purposes and must be changed
+before being included in production. The key is copied to
+`/etc/cryptsetup-keys.d/luks.key` in the initramfs to facilitate automatic
+unlocking. In a real-world scenario, this key would be provided by some
+hardware key manager, such as a TPM or OP-TEE.
+
+The underlying `dm-integrity` device is automatically created by `cryptsetup`
+and provides a read/writable block-level integrity verification layer for the
+read/write root overlay. This ensures that both the original SquashFS root
+filesystem and the read/write overlay are protected against bit-rot and data
+corruption.
 
 The storage architecture of the root filesystem can be represented using the
 following diagram:
@@ -52,15 +60,18 @@ following diagram:
             filesystem: overlayfs
         /                          \
         |                          |
-    dm-verity                  dm-integrity
+    dm-verity                  dm-crypt
         |                          |
+        |                    dm-integrity
         |                          |
 PARTLABEL=p.lxreadonly     PARTLABEL=p.lxroot
 filesystem: squashfs       filesystem: xfs
 ```
 
-The `dm-verity` and `dm-integrity` device mappings are both set up during the
+The `dm-verity` and `dm-crypt` device mappings are both set up during the
 boot process by the initrd, which then also combines them using `overlayfs`.
+The `dm-integrity` mapping is automatically handled by `cryptsetup` when the
+`dm-crypt` device is opened.
 
 ## How To Build
 

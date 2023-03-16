@@ -138,3 +138,13 @@ Required packages:
 
 The `run_x86.sh` script can be used to quickly execute the virtual machine with
 the correct configuration.
+
+### AArch64
+
+Required packages:
+
+* `qemu-system-aarch64`
+* `qemu-efi-aarch64` (UEFI firmware)
+
+The `run_aarch64.sh` script can be used to quickly execute the virtual machine
+with the correct configuration.

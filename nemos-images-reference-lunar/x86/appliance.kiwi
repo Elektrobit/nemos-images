@@ -21,8 +21,8 @@
             overlayroot="true" overlayroot_write_partition="true"
             overlayroot_readonly_partsize="256" squashfscompression="zstd"
             bootpartition="true" bootpartsize="256" bootfilesystem="ext4" format="qcow2"
-            kernelcmdline="console=ttyS0 rd.systemd.verity=1 root=/dev/mapper/verityRoot verityroot=/dev/disk/by-partlabel/p.lxreadonly overlay=/dev/mapper/integrityRoot"
-            verity_blocks="all" embed_verity_metadata="true" standalone_integrity="true">
+            kernelcmdline="console=ttyS0 rd.systemd.verity=1 root=/dev/mapper/verityRoot verityroot=/dev/disk/by-partlabel/p.lxreadonly overlay=/dev/mapper/luks rd.luks=yes"
+            verity_blocks="all" embed_verity_metadata="true" luks_version="luks2" luks="insecure">
             <bootloader name="grub2" />
             <oemconfig>
                 <oem-resize>false</oem-resize>
@@ -33,6 +33,14 @@
                 <partition name="oci-storage" size="512" mountpoint="/var/lib/containers/storage" filesystem="xfs" />
                 <partition name="oci-preloaded" size="512" mountpoint="/var/lib/containers/loaded" filesystem="squashfs" />
             </partitions>
+            <luksformat>
+                <!-- This cipher must be changed for production use - according to the cryptsetup release notes it is very insecure -->
+                <option name="--cipher" value="aes-gcm-random"/>
+                <!-- Include transparent dm-integrity support -->
+                <option name="--integrity" value="aead"/>
+                <!-- Enable pbkdf2 key derivation instead of using the default Argon, which causes OOM errors due to the small VM memory -->
+                <option name="--pbkdf" value="pbkdf2"/>
+              </luksformat>
         </type>
     </preferences>
 

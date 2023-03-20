@@ -20,6 +20,8 @@ qemu-system-x86_64 \
     -drive file="${NVRAM}",if=pflash,format=raw,unit=1 \
     -netdev user,id=user0,hostfwd=tcp::10022-:22 \
     -device virtio-net-pci,netdev=user0 \
+    -object rng-random,filename=/dev/urandom,id=rng0 \
+    -device virtio-rng-pci,rng=rng0 \
     -drive file=nemos-image-reference-lunar.x86_64-1.0.1.qcow2,if=virtio
 
 rm ${NVRAM}

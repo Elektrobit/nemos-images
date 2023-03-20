@@ -6,6 +6,9 @@ if [ -d /var/tmp/my_lunar ];then
     pushd /var/tmp/my_lunar
 fi
 
+NVRAM=$(mktemp)
+cp /usr/share/OVMF/OVMF_VARS.fd ${NVRAM}
+
 qemu-system-x86_64 \
     -m 1G \
     --enable-kvm \
@@ -13,7 +16,10 @@ qemu-system-x86_64 \
     --cpu host \
     -nographic \
     -M q35 \
-    -bios /usr/share/qemu/OVMF.fd \
+    -drive file="/usr/share/OVMF/OVMF_CODE.fd",readonly=on,if=pflash,format=raw,unit=0 \
+    -drive file="${NVRAM}",if=pflash,format=raw,unit=1 \
     -netdev user,id=user0,hostfwd=tcp::10022-:22 \
     -device virtio-net-pci,netdev=user0 \
     -drive file=nemos-image-reference-lunar.x86_64-1.0.1.qcow2,if=virtio
+
+rm ${NVRAM}

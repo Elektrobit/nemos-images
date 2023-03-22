@@ -54,7 +54,7 @@
     </users>
 
     <repository type="apt-deb" alias="NemOS-Bootstrap-PPA" distribution="lunar" components="main"
-        repository_gpgcheck="false" profiles="bootstrapped">
+        repository_gpgcheck="false" profiles="bootstrapped,development">
         <source path="https://ppa.launchpadcontent.net/nemos-team/bootstrap/ubuntu" />
     </repository>
     <repository type="apt-deb" alias="NemOS-PPA" distribution="lunar" components="main"

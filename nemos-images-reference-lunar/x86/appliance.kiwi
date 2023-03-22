@@ -113,6 +113,7 @@
         <package name="linuxptp" />
         <package name="udhcpd" />
         <package name="udhcpc" />
+        <package name="iptables" />
     </packages>
 
     <packages type="image" profiles="development">

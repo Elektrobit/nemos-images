@@ -19,7 +19,6 @@ for package in \
     linux-firmware \
     coreutils \
     tar \
-    dmsetup \
     cpio \
     dracut \
     dracut-core \

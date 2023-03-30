@@ -38,8 +38,11 @@
                 <option name="--cipher" value="aes-gcm-random"/>
                 <!-- Include transparent dm-integrity support -->
                 <option name="--integrity" value="aead"/>
-                <!-- Enable pbkdf2 key derivation instead of using the default Argon, which causes OOM errors due to the small VM memory -->
-                <option name="--pbkdf" value="pbkdf2"/>
+                <!-- Adjust pbkdf parameters as the defaults cause OOM errors due to the small VM memory -->
+                <option name="--pbkdf" value="argon2id"/>
+                <option name="--pbkdf-memory" value="178155"/>
+                <option name="--pbkdf-force-iterations" value="4"/>
+                <option name="--pbkdf-parallel" value="2"/>
               </luksformat>
         </type>
     </preferences>

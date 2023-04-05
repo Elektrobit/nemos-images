@@ -42,7 +42,7 @@ Call kiwi as follows:
 
     sudo kiwi-ng --config PATH/TO/nemos-image-minimal-lunar/kiwi.yaml \
         system build \
-        --description PATH/TO/nemos-image-minimal-lunar/x86 \
+        --description PATH/TO/nemos-image-minimal-lunar/qemu-amd64 \
         --target-dir /var/tmp/my_lunar
 
 There are two ways of building the images: with debootstrap (default), or by
@@ -61,7 +61,7 @@ line call, immediately before `system build`. For example:
     sudo kiwi-ng --config PATH/TO/nemos-image-minimal-lunar/kiwi.yaml \
         --profile bootstrapped \
         system build \
-        --description PATH/TO/nemos-image-minimal-lunar/x86 \
+        --description PATH/TO/nemos-image-minimal-lunar/qemu-amd64 \
         --target-dir /var/tmp/my_lunar
 
 The debootstrap method can be used by either passing `--profile default` in the

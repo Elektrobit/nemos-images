@@ -107,7 +107,7 @@ Call kiwi as follows:
 ```
 sudo kiwi-ng --config PATH/TO/test-image-reference-lunar/kiwi.yaml \
     system build \
-    --description PATH/TO/test-image-reference-lunar/x86 \
+    --description PATH/TO/test-image-reference-lunar/qemu-amd64 \
     --target-dir /var/tmp/my_lunar
 ```
 
@@ -126,7 +126,7 @@ line call, immediately before `system build`. For example:
 sudo kiwi-ng --config PATH/TO/test-image-reference-lunar/kiwi.yaml \
     --profile bootstrapped \
     system build \
-    --description PATH/TO/test-image-reference-lunar/x86 \
+    --description PATH/TO/test-image-reference-lunar/qemu-amd64 \
     --target-dir /var/tmp/my_lunar
 ```
 
@@ -147,7 +147,7 @@ Required packages:
 * `qemu-system-x86_64`
 * `ovmf` (UEFI firmware)
 
-The `run_x86.sh` script can be used to quickly execute the virtual machine with
+The `run_qemu_amd64.sh` script can be used to quickly execute the virtual machine with
 the correct configuration.
 
 ### AArch64
@@ -157,5 +157,5 @@ Required packages:
 * `qemu-system-aarch64`
 * `qemu-efi-aarch64` (UEFI firmware)
 
-The `run_aarch64.sh` script can be used to quickly execute the virtual machine
+The `run_qemu_arm64.sh` script can be used to quickly execute the virtual machine
 with the correct configuration.

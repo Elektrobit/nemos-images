@@ -11,4 +11,4 @@ qemu-system-x86_64 \
     -nographic \
     -netdev user,id=user0,hostfwd=tcp::10022-:22 \
     -device virtio-net-pci,netdev=user0 \
-    -drive file=nemos-image-embedded-lunar.x86_64-1.0.1.qcow2,if=virtio
+    -drive file=nemos-image-minimal-lunar.x86_64-1.0.1.qcow2,if=virtio

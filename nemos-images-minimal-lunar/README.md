@@ -1,4 +1,4 @@
-# test-image-embedded-lunar
+# nemos-image-minimal-lunar
 
 ## Motivation
 
@@ -40,9 +40,9 @@ Call kiwi as follows:
 
 .. code:: bash
 
-    sudo kiwi-ng --config PATH/TO/test-image-embedded-lunar/kiwi.yaml \
+    sudo kiwi-ng --config PATH/TO/nemos-image-minimal-lunar/kiwi.yaml \
         system build \
-        --description PATH/TO/test-image-embedded-lunar/x86 \
+        --description PATH/TO/nemos-image-minimal-lunar/x86 \
         --target-dir /var/tmp/my_lunar
 
 There are two ways of building the images: with debootstrap (default), or by
@@ -58,10 +58,10 @@ line call, immediately before `system build`. For example:
 
 .. code:: bash
 
-    sudo kiwi-ng --config PATH/TO/test-image-embedded-lunar/kiwi.yaml \
+    sudo kiwi-ng --config PATH/TO/nemos-image-minimal-lunar/kiwi.yaml \
         --profile bootstrapped \
         system build \
-        --description PATH/TO/test-image-embedded-lunar/x86 \
+        --description PATH/TO/nemos-image-minimal-lunar/x86 \
         --target-dir /var/tmp/my_lunar
 
 The debootstrap method can be used by either passing `--profile default` in the

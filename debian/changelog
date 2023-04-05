@@ -1,3 +1,9 @@
+nemos-images (1.4) lunar; urgency=medium
+
+  * Rename nemos-images-embedded-lunar to nemos-images-minimal-lunar.
+
+ -- Isaac True <isaac.true@canonical.com>  Wed, 05 Apr 2023 15:26:10 +0200
+
 nemos-images (1.1) lunar; urgency=medium
 
   * Add nemos-images-reference-lunar.

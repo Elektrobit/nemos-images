@@ -10,6 +10,6 @@ qemu-system-aarch64 \
     -m 1G \
     -machine virt \
     -cpu cortex-a57 \
-    -drive file=nemos-image-embedded-lunar.aarch64-1.0.1.qcow2,if=virtio,driver=qcow2,cache=off \
+    -drive file=nemos-image-minimal-lunar.aarch64-1.0.1.qcow2,if=virtio,driver=qcow2,cache=off \
     -nographic \
     -bios /usr/lib/u-boot/qemu_arm64/u-boot.bin

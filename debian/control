@@ -15,6 +15,9 @@ Architecture: all
 Depends:
  ${shlibs:Depends},
  ${misc:Depends},
+ kiwi,
+ kiwi-systemdeps,
+Suggests: jing
 Description: Kiwi NemOS appliance descriptions
  Lunar image descriptions for embedded targets for use with Kiwi.
 
@@ -23,6 +26,9 @@ Architecture: all
 Depends:
  ${shlibs:Depends},
  ${misc:Depends},
+ kiwi,
+ kiwi-systemdeps,
+Suggests: jing
 Description: Kiwi NemOS reference appliance descriptions
  Lunar image descriptions for targets for use with Kiwi which demonstrate
  the full capabilities of the NemOS system.

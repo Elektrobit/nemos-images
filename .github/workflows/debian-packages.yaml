@@ -1,7 +1,6 @@
 ---
 name: Debian Packages
 on: 
-  push: {}
   pull_request: {}
 jobs:
   Create-Debian-Packages:

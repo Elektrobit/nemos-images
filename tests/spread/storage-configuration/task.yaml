@@ -1,0 +1,33 @@
+---
+
+summary: "Verify storage configuration"
+
+systems:
+  - "nemos-image-reference-*"
+
+execute: |
+  # Check that the dm-crypt parameters are correct
+  test $(dmsetup status luks | awk '{ print $3;}') = "crypt"
+  export LUKS="$(cryptsetup status luks)"
+  test $(echo "${LUKS}" | awk '{ if ($1 == "type:") print $2;}') = "LUKS2"
+  test $(echo "${LUKS}" | awk '{ if ($1 == "cipher:") print $2;}') = "aegis128-random"
+  test $(echo "${LUKS}" | awk '{ if ($1 == "integrity:") print $2;}') = "aead"
+  test $(echo "${LUKS}" | awk '{ if ($1 == "mode:") print $2;}') = "read/write"
+
+  # Check that the dm-integrity parameters are correct
+  test $(dmsetup status luks_dif | awk '{ print $3;}') = "integrity"
+  test $(cryptsetup status luks_dif | grep type | awk '{ print $2;}') = "INTEGRITY"
+  export INTEGRITY="$(integritysetup status luks_dif)"
+  test $(echo "${INTEGRITY}" | awk '{ if ($1 == "type:") print $2;}') = "INTEGRITY"
+  test $(echo "${INTEGRITY}" | awk '{ if ($1 == "failures:") print $2;}') = "0"
+  test $(echo "${INTEGRITY}" | awk '{ if ($1 == "mode:") print $2;}') = "read/write"
+
+  # Check that the dm-verity parameters are correct
+  test $(dmsetup status verityRoot | awk '{ print $3;}') = "verity"
+  export VERITY="$(veritysetup status verityRoot)"
+  test $(echo "${VERITY}" | awk '{ if ($1 == "type:") print $2;}') = "VERITY"
+  test $(echo "${VERITY}" | awk '{ if ($1 == "status:") print $2;}') = "verified"
+  test $(echo "${VERITY}" | awk '{ if ($1 == "mode:") print $2;}') = "readonly"
+
+  # Check that / is using overlayfs
+  test $(mount | grep "on / " | awk '{ print $1;}') = "overlay"

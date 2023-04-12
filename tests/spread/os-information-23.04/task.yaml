@@ -1,0 +1,12 @@
+---
+
+summary: "Verify Ubuntu 23.04 OS release information"
+
+systems:
+  - "nemos-image-*-lunar"
+
+execute: |
+  . /etc/os-release
+  test "${NAME}" = "Ubuntu"
+  test "${VERSION_ID}" = "23.04"
+  test "${VERSION_CODENAME}" = "lunar"

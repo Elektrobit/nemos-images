@@ -1,10 +1,10 @@
 ---
-name: Debian Packages
-on: 
+name: "Debian Packages"
+on:
   pull_request: {}
 jobs:
   Create-Debian-Packages:
-    runs-on: ubuntu-latest
+    runs-on: "ubuntu-latest"
     steps:
       - name: "Checkout"
         uses: "actions/checkout@v2"

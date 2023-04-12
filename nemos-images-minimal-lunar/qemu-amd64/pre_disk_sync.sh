@@ -6,7 +6,7 @@ set -ex
 #=======================================
 # Create initrd link
 #---------------------------------------
-ln -s /boot/initrd-*-generic /boot/initrd
+ln -s /boot/initrd-*-s32 /boot/initrd
 
 #=======================================
 # Force delete packages not needed/wanted
@@ -14,7 +14,7 @@ ln -s /boot/initrd-*-generic /boot/initrd
 for package in \
     $(apt list --installed | grep ^linux-headers | cut -f 1 -d/) \
     $(apt list --installed | grep ^linux-modules | cut -f 1 -d/) \
-    linux-image-generic \
+    linux-image-s32 \
     linux-firmware \
     coreutils \
     tar \

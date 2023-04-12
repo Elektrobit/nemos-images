@@ -35,8 +35,11 @@
         <user password="$1$wYJUgpM5$RXMMeASDc035eX.NbYWFl0" home="/home/admin" name="admin" groups="users" shell="/bin/ash"/>
     </users>
 
-    <repository type="apt-deb" alias="Lunar-Bootstrap-PPA" distribution="lunar" components="main" repository_gpgcheck="false" profiles="bootstrapped">
+    <repository type="apt-deb" alias="NemOS-Bootstrap-PPA" distribution="lunar" components="main" repository_gpgcheck="false" profiles="bootstrapped">
         <source path="https://ppa.launchpadcontent.net/nemos-team/bootstrap/ubuntu"/>
+    </repository>
+    <repository type="apt-deb" alias="NemOS-PPA" distribution="lunar" components="main" repository_gpgcheck="false">
+        <source path="https://ppa.launchpadcontent.net/nemos-team/ppa/ubuntu" />
     </repository>
     <repository type="apt-deb" alias="Lunar-security" distribution="lunar-security" components="main multiverse restricted universe" repository_gpgcheck="false">
         <source path="http://security.ubuntu.com/ubuntu"/>
@@ -50,7 +53,7 @@
 
     <packages type="image">
         <!-- kernel -->
-        <package name="linux-generic"/>
+        <package name="linux-s32"/>
         <!-- network, ssh, sudo -->
         <package name="openssh-client"/>
         <package name="openssh-server"/>

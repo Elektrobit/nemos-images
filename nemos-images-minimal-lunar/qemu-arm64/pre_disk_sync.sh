@@ -36,7 +36,7 @@ rm /boot/qemu.dtb
 for package in \
     $(apt list --installed | grep ^linux-headers | cut -f 1 -d/) \
     $(apt list --installed | grep ^linux-modules | cut -f 1 -d/) \
-    linux-image-generic \
+    linux-image-s32 \
     linux-firmware \
     coreutils \
     tar \

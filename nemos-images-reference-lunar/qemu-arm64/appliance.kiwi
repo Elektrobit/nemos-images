@@ -19,7 +19,7 @@
         <packagemanager>apt</packagemanager>
         <type image="oem" filesystem="xfs" firmware="efi" initrd_system="dracut"
             overlayroot="true" overlayroot_write_partition="true"
-            overlayroot_readonly_partsize="256" squashfscompression="zstd"
+            overlayroot_readonly_partsize="1024" squashfscompression="zstd"
             bootpartition="true" bootpartsize="256" bootfilesystem="ext4" format="qcow2"
             kernelcmdline="console=ttyS0 rd.systemd.verity=1 root=/dev/mapper/verityRoot verityroot=/dev/disk/by-partlabel/p.lxreadonly overlay=/dev/mapper/luks rd.luks=yes"
             verity_blocks="all" embed_verity_metadata="true" luks_version="luks2" luks="insecure">
@@ -27,7 +27,7 @@
             <oemconfig>
                 <oem-resize>false</oem-resize>
             </oemconfig>
-            <size unit="G">2</size>
+            <size unit="G">3</size>
             <partitions>
                 <partition name="home" size="10" mountpoint="/home" filesystem="ext4" />
                 <partition name="oci-storage" size="512" mountpoint="/var/lib/containers/storage" filesystem="xfs" />
@@ -125,6 +125,15 @@
         <!-- snaps -->
         <package name="snapd" />
         <package name="xdelta3" />
+        <!-- testing tools for checkbox -->
+        <package name="fwts" />
+        <package name="stress-ng" />
+        <package name="ipmitool" />
+        <package name="dmidecode" />
+        <package name="sosreport" />
+        <package name="apport" />
+        <package name="dkms" />
+        <package name="mokutil" />
     </packages>
 
     <!-- Bootstrap configuration -->

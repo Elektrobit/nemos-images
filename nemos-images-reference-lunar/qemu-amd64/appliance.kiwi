@@ -34,8 +34,8 @@
                 <partition name="oci-preloaded" size="512" mountpoint="/var/lib/containers/loaded" filesystem="squashfs" />
             </partitions>
             <luksformat>
-                <!-- This cipher must be changed for production use - according to the cryptsetup release notes it is very insecure -->
-                <option name="--cipher" value="aes-gcm-random"/>
+                <option name="--cipher" value="aegis128-random"/>
+                <option name="--key-size" value="128"/>
                 <!-- Include transparent dm-integrity support -->
                 <option name="--integrity" value="aead"/>
                 <!-- Adjust pbkdf parameters as the defaults cause OOM errors due to the small VM memory -->

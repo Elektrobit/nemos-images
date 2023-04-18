@@ -34,7 +34,6 @@ for package in \
     dirmngr \
     gpgconf \
     gpg \
-    bash \
     findutils \
     sed \
     grep \
@@ -45,10 +44,6 @@ for package in \
     libgmp10 \
     libgnutls30 \
     apt \
-    python3 \
-    python3.10 \
-    python3-minimal \
-    python3.10-minimal \
     debianutils
 do
     rm -f /var/lib/dpkg/info/${package}*.pre*

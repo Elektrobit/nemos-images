@@ -87,6 +87,7 @@
         <package name="cron" />
         <package name="xz-utils" />
         <package name="zstd" />
+        <package name="tuptime" />
         <!-- bootloader -->
         <package name="grub-common" arch="x86_64"/>
         <package name="grub2-common" arch="x86_64"/>

@@ -96,3 +96,8 @@ ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
 #---------------------------------------
 rm -rf /var/cache/apt
 rm -rf /var/lib/apt/lists
+
+#=======================================
+# Make sure there are no source directories left behind
+#---------------------------------------
+rm -rf /usr/src

@@ -83,6 +83,7 @@
         <!-- Base packages -->
         <package name="usrmerge" />
         <package name="netbase" />
+        <package name="netplan.io" />
         <package name="sudo" />
         <package name="cron" />
         <package name="xz-utils" />

@@ -59,6 +59,7 @@
         <package name="openssh-server"/>
         <package name="usrmerge"/>
         <package name="netbase"/>
+        <package name="netplan.io"/>
         <package name="sudo"/>
         <package name="cron"/>
         <package name="zstd"/>

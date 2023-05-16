@@ -7,11 +7,6 @@ test -f /.kconfig && . /.kconfig
 
 set -ex
 
-#======================================
-# Setup default target, multi-user
-#--------------------------------------
-baseSetRunlevel 3
-
 #==================================
 # Allow suid tools with busybox
 #----------------------------------
@@ -37,31 +32,7 @@ rm -rf /usr/lib/x86_64-linux-gnu/gconv
 #----------------------------------
 find /usr/share/doc/ ! -iname copyright -delete 2> /dev/null || true
 
-#==================================
-# Create init symlink
-#----------------------------------
-rm -f /sbin/init
-ln -rs /lib/systemd/systemd /sbin/init
-
-#==================================
-# Mask/Disable services
-#----------------------------------
-for service in \
-    apt-daily.service \
-    apt-daily.timer \
-    apt-daily-upgrade.service \
-    apt-daily-upgrade.timer \
-    grub-common.service \
-    grub-initrd-fallback.service \
-    systemd-resolved.service \
-    e2scrub_reap.service \
-    systemd-logind.service
-do
-    systemctl mask "${service}"
-done
-
 #======================================
 # Activate services
 #--------------------------------------
-baseInsertService ssh
 baseInsertService systemd-networkd

@@ -4,21 +4,23 @@ on:
   pull_request: {}
 jobs:
   qemu-amd64:
-    runs-on: ubuntu-22.04
+    runs-on: "ubuntu-22.04"
     steps:
       - name: "Checkout"
-        uses: "actions/checkout@v2"
+        uses: "actions/checkout@v3"
       - name: "Update system packages"
         run: |
           sudo apt update
-          sudo apt full-upgrade -y
+          sudo DEBIAN_FRONTEND="noninteractive" \
+            apt full-upgrade -y
       - name: "Setup Kiwi PPA"
         run: |
           sudo apt install -y software-properties-common
           sudo add-apt-repository -y ppa:nemos-team/kiwi
       - name: "Install Kiwi"
         run: |
-          sudo apt install -y kiwi kiwi-systemdeps
+          sudo DEBIAN_FRONTEND="noninteractive" \
+            apt install -y kiwi kiwi-systemdeps
       - name: "Run Kiwi"
         run: |
           sudo kiwi-ng --debug --profile bootstrapped \
@@ -26,3 +28,40 @@ jobs:
             system build \
             --description nemos-images-minimal-lunar/qemu-amd64/ \
             --target-dir build
+          sudo mv build/nemos-image-minimal-lunar.*.qcow2 \
+            nemos-image-minimal-lunar.qcow2
+      - name: "Archive"
+        uses: "actions/upload-artifact@v3"
+        with:
+          name: "nemos-images-minimal-lunar"
+          path: |
+            nemos-image-minimal-lunar.qcow2
+  spread:
+    runs-on: "ubuntu-22.04"
+    needs: "qemu-amd64"
+    steps:
+      - uses: "actions/checkout@v3"
+      - name: "Update system packages"
+        run: |
+          sudo apt update
+          sudo DEBIAN_FRONTEND="noninteractive" \
+            apt full-upgrade -y
+      - name: "Install dependencies"
+        run: |
+          sudo DEBIAN_FRONTEND="noninteractive" \
+            apt install -y golang ovmf qemu-system-x86
+      - name: "Install spread"
+        run: |
+          go clean -modcache
+          go install github.com/snapcore/spread/cmd/spread@latest
+      - name: "Download QEMU image"
+        uses: actions/download-artifact@v3
+        with:
+          name: "nemos-images-minimal-lunar"
+      - name: "Copy QEMU image to spread directory"
+        run: |
+          mkdir -p ~/.spread/adhoc
+          mv nemos-image-minimal-lunar.qcow2 ~/.spread/adhoc/
+      - name: "Run the spread tests inside QEMU"
+        run: |
+          ~/go/bin/spread -v adhoc:nemos-image-minimal-lunar

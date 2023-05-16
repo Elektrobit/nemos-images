@@ -1,13 +1,13 @@
 ---
-name: Debian Packages
-on: 
+name: "Debian Packages"
+on:
   pull_request: {}
 jobs:
   Create-Debian-Packages:
-    runs-on: ubuntu-latest
+    runs-on: "ubuntu-latest"
     steps:
       - name: "Checkout"
-        uses: "actions/checkout@v2"
+        uses: "actions/checkout@v3"
       - name: "Install dependencies"
         run: "sudo apt update && sudo apt full-upgrade -y && sudo apt install -y devscripts equivs build-essential"
       - name: "Install additional package build dependencies"

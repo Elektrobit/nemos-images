@@ -1,0 +1,45 @@
+---
+
+project: nemos-images
+
+path: /tmp/nemos
+
+backends:
+  adhoc:
+    allocate: |
+      VM_IMAGE="${HOME}/.spread/${SPREAD_BACKEND}/${SPREAD_SYSTEM}.qcow2"
+      NVRAM="/tmp/${SPREAD_BACKEND}-${SPREAD_SYSTEM}.fd"
+
+      if [ ! -f "${VM_IMAGE}" ]; then
+        FATAL "File not found: ${VM_IMAGE}"
+      fi
+
+      SSH_PORT=$((30000 + $RANDOM % 20000))
+
+      cp /usr/share/OVMF/OVMF_VARS.fd ${NVRAM}
+
+      qemu-system-x86_64 -M q35 -m 1G -daemonize \
+        -drive file="/usr/share/OVMF/OVMF_CODE.fd",readonly=on,if=pflash,format=raw,unit=0 \
+        -drive file="${NVRAM}",if=pflash,format=raw,unit=1 \
+        -drive file="${VM_IMAGE}",format=qcow2,if=virtio \
+        -netdev user,id=user0,hostfwd=tcp:127.0.0.1:${SSH_PORT}-:22 \
+        -device netdev=user0,driver=virtio-net-pci \
+        -serial null -parallel null -monitor none -display none -vga none \
+        -pidfile /tmp/${SPREAD_BACKEND}-${SPREAD_SYSTEM}.pid
+
+      sleep 30
+      ADDRESS 127.0.0.1:${SSH_PORT}
+    discard: |
+      kill -9 $(cat /tmp/${SPREAD_BACKEND}-${SPREAD_SYSTEM}.pid)
+      rm -f /tmp/${SPREAD_BACKEND}-${SPREAD_SYSTEM}.{fd,pid}
+    systems:
+      - nemos-image-reference-lunar:
+          username: admin
+          password: linux
+      - nemos-image-minimal-lunar:
+          username: admin
+          password: linux
+
+suites:
+  tests/spread/:
+    summary: Integration tests

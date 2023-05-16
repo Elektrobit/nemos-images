@@ -34,7 +34,6 @@ for package in \
     dirmngr \
     gpgconf \
     gpg \
-    bash \
     findutils \
     sed \
     grep \

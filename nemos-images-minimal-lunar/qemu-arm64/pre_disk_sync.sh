@@ -69,10 +69,6 @@ for package in \
     libgnutls30 \
     libstdc++6 \
     apt \
-    python3 \
-    python3.10 \
-    python3-minimal \
-    python3.10-minimal \
     perl-base \
     debianutils \
     qemu-system-arm \

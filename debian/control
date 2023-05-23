@@ -6,7 +6,7 @@ Priority: optional
 Maintainer: NemOS Team <nemos-team@lists.launchpad.net>
 Build-Depends:
  debhelper-compat (= 13),
-Standards-Version: 4.6.0
+Standards-Version: 4.6.2
 Homepage: https://launchpad.net/nemos
 Rules-Requires-Root: no
 

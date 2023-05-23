@@ -10,6 +10,16 @@ Standards-Version: 4.6.2
 Homepage: https://launchpad.net/nemos
 Rules-Requires-Root: no
 
+Package: nemos-images-lunar
+Architecture: all
+Depends:
+ ${misc:Depends},
+ nemos-images-minimal-lunar,
+ nemos-images-reference-lunar,
+Description: Kiwi NemOS appliance description metapackage
+ Metapackage for all lunar image descriptions for embedded targets for use
+ with Kiwi.
+
 Package: nemos-images-minimal-lunar
 Architecture: all
 Depends:

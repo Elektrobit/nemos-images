@@ -23,7 +23,7 @@
             bootpartition="true" bootpartsize="256" bootfilesystem="ext4" format="qcow2"
             kernelcmdline="console=ttyS0 rd.systemd.verity=1 root=/dev/mapper/verityRoot verityroot=/dev/disk/by-partlabel/p.lxreadonly overlay=/dev/mapper/luks rd.luks=yes"
             verity_blocks="all" embed_verity_metadata="true" luks_version="luks2" luks="insecure">
-            <bootloader name="grub2" />
+            <bootloader name="grub2" console="serial" timeout="0" />
             <oemconfig>
                 <oem-resize>false</oem-resize>
             </oemconfig>

@@ -21,7 +21,7 @@
             overlayroot="true" overlayroot_write_partition="true"
             overlayroot_readonly_partsize="1024" squashfscompression="zstd"
             bootpartition="true" bootpartsize="256" bootfilesystem="ext4" format="qcow2"
-            kernelcmdline="console=ttyS0 rd.systemd.verity=1 root=/dev/mapper/verityRoot verityroot=/dev/disk/by-partlabel/p.lxreadonly overlay=/dev/mapper/luks rd.luks=yes"
+            kernelcmdline="console=ttyS0 rd.systemd.verity=1 root=overlay:MAPPER=verityRoot verityroot=/dev/disk/by-partlabel/p.lxreadonly rd.root.overlay.write=/dev/mapper/luks rd.luks=yes rootwait"
             verity_blocks="all" embed_verity_metadata="true" luks_version="luks2" luks="insecure">
             <bootloader name="grub2" console="serial" timeout="0" />
             <oemconfig>
@@ -64,6 +64,10 @@
         repository_gpgcheck="false">
         <source path="https://ppa.launchpadcontent.net/nemos-team/ppa/ubuntu" />
     </repository>
+    <repository type="apt-deb" alias="NemOS-Kiwi-Backports-PPA" distribution="lunar" components="main"
+        repository_gpgcheck="false">
+        <source path="https://ppa.launchpadcontent.net/nemos-team/kiwi/ubuntu" />
+    </repository>
     <repository type="apt-deb" alias="Lunar-security" distribution="lunar-security"
         components="main multiverse restricted universe" repository_gpgcheck="false">
         <source path="http://security.ubuntu.com/ubuntu" />
@@ -99,9 +103,8 @@
         <package name="busybox-static" />
         <package name="cryptsetup" />
         <package name="dracut" />
-        <!-- we should switch to using the upstream dracut's built-in modules for persistent overlays when we work out how to use them -->
-        <package name="dracut-overlay-root-persistent" />
-        <package name="dracut-kiwi-verity" />
+        <package name="kiwi-dracut-overlay" />
+        <package name="kiwi-dracut-verity" />
         <package name="dbus" />
         <package name="locales" />
         <package name="systemd" />

@@ -24,7 +24,10 @@ backends:
         -drive file="${VM_IMAGE}",format=qcow2,if=virtio \
         -netdev user,id=user0,hostfwd=tcp:127.0.0.1:${SSH_PORT}-:22 \
         -device netdev=user0,driver=virtio-net-pci \
-        -serial null -parallel null -monitor none -display none -vga none \
+        -object rng-random,filename=/dev/urandom,id=rng0 \
+        -device virtio-rng-pci,rng=rng0 \
+        -serial telnet:127.0.0.1:$((${SSH_PORT} + 1)),server,nowait \
+        -parallel null -monitor none -display none -vga none \
         -pidfile /tmp/${SPREAD_BACKEND}-${SPREAD_SYSTEM}.pid
 
       sleep 30

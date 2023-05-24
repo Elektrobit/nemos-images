@@ -30,4 +30,4 @@ execute: |
   test $(echo "${VERITY}" | awk '{ if ($1 == "mode:") print $2;}') = "readonly"
 
   # Check that / is using overlayfs
-  test $(mount | grep "on / " | awk '{ print $1;}') = "overlay"
+  test $(mount | grep "on / " | awk '{ print $1;}') = "OverlayOS_rootfs"

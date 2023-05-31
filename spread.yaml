@@ -30,7 +30,7 @@ backends:
         -parallel null -monitor none -display none -vga none \
         -pidfile /tmp/${SPREAD_BACKEND}-${SPREAD_SYSTEM}.pid
 
-      sleep 30
+      sleep 60
       ADDRESS 127.0.0.1:${SSH_PORT}
     discard: |
       kill -9 $(cat /tmp/${SPREAD_BACKEND}-${SPREAD_SYSTEM}.pid)

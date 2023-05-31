@@ -30,7 +30,16 @@ backends:
         -parallel null -monitor none -display none -vga none \
         -pidfile /tmp/${SPREAD_BACKEND}-${SPREAD_SYSTEM}.pid
 
-      sleep 60
+      # Try up to 500 times to see if the SSH connection is available earlier
+      for i in $(seq 1 500); do
+        if sshpass -p ${SPREAD_SYSTEM_PASSWORD} \
+          ssh -p ${SSH_PORT} -o ConnectTimeout=1 -o StrictHostKeyChecking=no \
+          -o UserKnownHostsFile=/dev/null \
+          ${SPREAD_SYSTEM_USERNAME}@localhost /bin/true; then
+            break;
+        fi
+      done
+
       ADDRESS 127.0.0.1:${SSH_PORT}
     discard: |
       kill -9 $(cat /tmp/${SPREAD_BACKEND}-${SPREAD_SYSTEM}.pid)

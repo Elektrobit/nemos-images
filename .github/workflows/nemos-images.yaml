@@ -1,10 +1,17 @@
 ---
-name: nemos-images-reference-lunar
+name: nemos-images
 on:
   pull_request: {}
 jobs:
   qemu-amd64:
     runs-on: "ubuntu-22.04"
+    strategy:
+      matrix:
+        series:
+          - lunar
+        config:
+          - minimal
+          - reference
     steps:
       - name: "Checkout"
         uses: "actions/checkout@v3"
@@ -23,19 +30,17 @@ jobs:
             apt install -y kiwi kiwi-systemdeps
       - name: "Run Kiwi"
         run: |
-          sudo kiwi-ng --debug --profile development \
-            --config nemos-images-reference-lunar/kiwi.yaml \
-            system build \
-            --description nemos-images-reference-lunar/qemu-amd64/ \
-            --target-dir build
-          sudo mv build/nemos-image-reference-lunar.*.qcow2 \
-            nemos-image-reference-lunar.qcow2
+          sudo kiwi-ng --debug --profile bootstrapped \
+            --config nemos-images-${{ matrix.config }}-${{ matrix.series }}/kiwi.yaml \
+            system build --target-dir build \
+            --description nemos-images-${{ matrix.config }}-${{ matrix.series }}/qemu-amd64/
+          sudo mv build/nemos-image-${{ matrix.config }}-${{ matrix.series }}.*.qcow2 \
+            nemos-image-${{ matrix.config }}-${{ matrix.series }}.qcow2
       - name: "Archive"
         uses: "actions/upload-artifact@v3"
         with:
-          name: "nemos-images-reference-lunar"
-          path: |
-            nemos-image-reference-lunar.qcow2
+          name: "nemos-image-${{ matrix.config }}-${{ matrix.series }}"
+          path: "nemos-image-${{ matrix.config }}-${{ matrix.series }}.qcow2"
   spread:
     runs-on: "ubuntu-22.04"
     needs: "qemu-amd64"
@@ -54,14 +59,12 @@ jobs:
         run: |
           go clean -modcache
           go install github.com/snapcore/spread/cmd/spread@latest
-      - name: "Download QEMU image"
+      - name: "Download QEMU images"
         uses: actions/download-artifact@v3
-        with:
-          name: "nemos-images-reference-lunar"
-      - name: "Copy QEMU image to spread directory"
+      - name: "Copy QEMU images to spread directory"
         run: |
           mkdir -p ~/.spread/adhoc
-          mv nemos-image-reference-lunar.qcow2 ~/.spread/adhoc/
+          mv -v nemos-image-*/*.qcow2 ~/.spread/adhoc/
       - name: "Run the spread tests inside QEMU"
         run: |
-          ~/go/bin/spread -v adhoc:nemos-image-reference-lunar
+          ~/go/bin/spread -v adhoc:

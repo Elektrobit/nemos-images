@@ -4,7 +4,7 @@ on:
   pull_request: {}
 jobs:
   qemu-amd64:
-    runs-on: "ubuntu-22.04"
+    runs-on: "ubuntu-latest"
     strategy:
       matrix:
         series:
@@ -42,7 +42,7 @@ jobs:
           name: "nemos-image-${{ matrix.config }}-${{ matrix.series }}"
           path: "nemos-image-${{ matrix.config }}-${{ matrix.series }}.qcow2"
   spread:
-    runs-on: "ubuntu-22.04"
+    runs-on: "ubuntu-latest"
     needs: "qemu-amd64"
     steps:
       - uses: "actions/checkout@v3"

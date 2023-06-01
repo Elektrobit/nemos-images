@@ -9,28 +9,6 @@ set -ex
 ln -sr /boot/initrd-* /boot/initrd
 
 #=======================================
-# Get device tree for QEMU boot
-#---------------------------------------
-qemu-system-aarch64 -nographic \
-    -cpu cortex-a57 \
-    -m 1G \
-    -bios /usr/lib/u-boot/qemu_arm64/u-boot.bin \
-    -machine virt \
-    -machine dumpdtb=/boot/qemu.dtb
-
-#=======================================
-# Create fit image
-#---------------------------------------
-(
-    cd /boot
-    mkimage -f bootargs.its bootargs.itb
-)
-rm /boot/System.map*
-rm /boot/initrd*
-rm /boot/vmlinuz*
-rm /boot/qemu.dtb
-
-#=======================================
 # Force delete packages not needed/wanted
 #---------------------------------------
 for package in \
@@ -70,9 +48,7 @@ for package in \
     libstdc++6 \
     apt \
     perl-base \
-    debianutils \
-    qemu-system-arm \
-    ipxe-qemu
+    debianutils
 do
     rm -f /var/lib/dpkg/info/${package}*.pre*
     rm -f /var/lib/dpkg/info/${package}*.post*

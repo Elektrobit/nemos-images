@@ -16,8 +16,8 @@
     <preferences>
         <version>1.0.1</version>
         <packagemanager>apt</packagemanager>
-        <type image="oem" filesystem="ext2" firmware="custom" initrd_system="dracut" overlayroot="true" overlayroot_write_partition="false" overlayroot_readonly_partsize="62" bootpartition="true" bootpartsize="100" format="qcow2" editbootinstall="uboot_install">
-            <bootloader name="custom"/>
+        <type image="oem" filesystem="ext2" firmware="efi" initrd_system="dracut" overlayroot="true" overlayroot_write_partition="false" overlayroot_readonly_partsize="62" bootpartition="true" bootpartsize="128" bootfilesystem="ext4" format="qcow2" >
+            <bootloader name="grub2" console="console" timeout="0" />
             <oemconfig>
                 <oem-resize>false</oem-resize>
             </oemconfig>
@@ -66,11 +66,10 @@
         <package name="cron"/>
         <package name="zstd"/>
         <!-- bootloader -->
-        <package name="u-boot-qemu"/>
-        <package name="u-boot-tools"/>
-        <package name="device-tree-compiler"/>
-        <package name="qemu-system-arm"/>
-        <package name="ipxe-qemu"/>
+        <package name="grub-common" />
+        <package name="grub2-common" />
+        <package name="grub-efi-arm64" />
+        <package name="grub-efi-arm64-bin" />
         <!-- system -->
         <package name="systemd"/>
         <package name="networkd-dispatcher"/>

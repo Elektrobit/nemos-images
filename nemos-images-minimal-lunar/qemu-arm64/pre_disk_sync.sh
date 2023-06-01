@@ -6,7 +6,7 @@ set -ex
 #=======================================
 # Create initrd link
 #---------------------------------------
-ln -s /boot/initrd-*-generic /boot/initrd
+ln -s /boot/initrd-* /boot/initrd
 
 #=======================================
 # Get device tree for QEMU boot

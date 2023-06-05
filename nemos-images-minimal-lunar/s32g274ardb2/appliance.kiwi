@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- SPDX-License-Identifier: GPL-2.0-or-later -->
+
+<image schemaversion="7.4" name="nemos-image-minimal-lunar-s32g274ardb2">
+    <description type="system">
+        <author>nemOS Team</author>
+        <contact>nemos-team@lists.launchpad.net</contact>
+        <specification>Minimal image for the NXP S32G274ARDB2</specification>
+    </description>
+
+    <profiles>
+        <profile name="bootstrapped" description="build the image using a bootstrap archive" />
+        <profile name="default" description="build the image using debootstrap" import="true" />
+    </profiles>
+
+    <preferences>
+        <version>1.0.1</version>
+        <packagemanager>apt</packagemanager>
+        <type image="oem" filesystem="ext2" firmware="custom" initrd_system="dracut"
+            overlayroot="true"
+            overlayroot_write_partition="false" overlayroot_readonly_partsize="80"
+            bootpartition="true" bootpartsize="100" format="qcow2" editbootinstall="uboot_install"
+            dosparttable_extended_layout="true" force_mbr="true"
+            squashfscompression="zstd" disk_start_sector="8192">
+            <bootloader name="custom" />
+            <oemconfig>
+                <oem-resize>false</oem-resize>
+            </oemconfig>
+            <size unit="M">256</size>
+            <partitions>
+                <partition name="home" size="5" mountpoint="/home" filesystem="ext2" />
+            </partitions>
+        </type>
+    </preferences>
+
+    <users>
+        <user password="$1$wYJUgpM5$RXMMeASDc035eX.NbYWFl0" home="/root" name="root" groups="root"
+            shell="/bin/ash" />
+    </users>
+    <users>
+        <user password="$1$wYJUgpM5$RXMMeASDc035eX.NbYWFl0" home="/home/admin" name="admin"
+            groups="users" shell="/bin/ash" />
+    </users>
+
+    <repository type="apt-deb" alias="NemOS-Bootstrap-PPA" distribution="lunar" components="main"
+        repository_gpgcheck="false" profiles="bootstrapped">
+        <source path="https://ppa.launchpadcontent.net/nemos-team/bootstrap/ubuntu" />
+    </repository>
+    <repository type="apt-deb" alias="NemOS-PPA" distribution="lunar" components="main"
+        repository_gpgcheck="false">
+        <source path="https://ppa.launchpadcontent.net/nemos-team/ppa/ubuntu" />
+    </repository>
+    <repository type="apt-deb" alias="NemOS-Kiwi-Backports-PPA" distribution="lunar"
+        components="main"
+        repository_gpgcheck="false">
+        <source path="https://ppa.launchpadcontent.net/nemos-team/kiwi/ubuntu" />
+    </repository>
+    <repository type="apt-deb" alias="Lunar-security" distribution="lunar-security"
+        components="main multiverse restricted universe" repository_gpgcheck="false">
+        <source path="http://ports.ubuntu.com/" />
+    </repository>
+    <repository type="apt-deb" alias="Lunar-updates" distribution="lunar-updates"
+        components="main multiverse restricted universe" repository_gpgcheck="false">
+        <source path="http://ports.ubuntu.com/" />
+    </repository>
+    <repository type="apt-deb" alias="Lunar" distribution="lunar"
+        components="main multiverse restricted universe" repository_gpgcheck="false">
+        <source path="http://ports.ubuntu.com/" />
+    </repository>
+
+    <packages type="image">
+        <!-- kernel -->
+        <package name="linux-s32-nemos" />
+        <!-- network, ssh, sudo -->
+        <package name="openssh-client" />
+        <package name="openssh-server" />
+        <package name="usrmerge" />
+        <package name="netbase" />
+        <package name="netplan.io" />
+        <package name="sudo" />
+        <package name="cron" />
+        <package name="zstd" />
+        <!-- bootloader -->
+        <package name="arm-trusted-firmware-s32" />
+        <package name="nemos-dev-cert" />
+        <package name="nemos-dev-key" />
+        <!-- system -->
+        <package name="systemd" />
+        <package name="dbus" />
+        <package name="dracut" />
+        <package name="locales" />
+        <package name="busybox-static" />
+    </packages>
+
+    <packages type="bootstrap" bootstrap_package="kiwi-bootstrap-lunar" profiles="bootstrapped">
+        <package name="ca-certificates" />
+        <package name="apt-transport-https" />
+    </packages>
+    <packages type="bootstrap" profiles="default">
+        <package name="ca-certificates" />
+        <package name="apt-transport-https" />
+    </packages>
+</image>

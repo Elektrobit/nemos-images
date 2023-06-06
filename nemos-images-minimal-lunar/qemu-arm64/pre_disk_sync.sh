@@ -6,7 +6,7 @@ set -ex
 #=======================================
 # Create initrd link
 #---------------------------------------
-ln -s /boot/initrd-* /boot/initrd
+ln -sr /boot/initrd-* /boot/initrd
 
 #=======================================
 # Get device tree for QEMU boot
@@ -36,7 +36,8 @@ rm /boot/qemu.dtb
 for package in \
     $(apt list --installed | grep ^linux-headers | cut -f 1 -d/) \
     $(apt list --installed | grep ^linux-modules | cut -f 1 -d/) \
-    linux-image-s32 \
+    linux-image-s32-nemos \
+    linux-s32-nemos \
     linux-firmware \
     coreutils \
     tar \

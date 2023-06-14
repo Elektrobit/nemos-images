@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- SPDX-License-Identifier: GPL-2.0-or-later -->
+
+<image schemaversion="7.4" name="nemos-image-reference-lunar-s32g274ardb2">
+    <description type="system">
+        <author>nemOS Team</author>
+        <contact>nemos-team@lists.launchpad.net</contact>
+        <specification>Reference image for the NXP S32G274ARDB2</specification>
+    </description>
+
+    <profiles>
+        <profile name="default" description="build the image using debootstrap" import="true" />
+        <profile name="bootstrapped" description="build the image using a bootstrap archive" />
+        <profile name="development" description="build an image with development tools" />
+    </profiles>
+
+    <preferences>
+        <version>1.0.1</version>
+        <packagemanager>apt</packagemanager>
+        <type image="oem" filesystem="xfs" firmware="custom" initrd_system="dracut"
+            overlayroot="true" overlayroot_write_partition="true" disk_start_sector="8192"
+            dosparttable_extended_layout="true" force_mbr="true" devicepersistency="by-uuid"
+            overlayroot_readonly_partsize="1024" squashfscompression="zstd"
+            bootpartition="true" bootpartsize="256" bootfilesystem="ext4" format="qcow2"
+            verity_blocks="all" embed_verity_metadata="true" luks_version="luks2" luks="insecure"
+            editbootinstall="uboot_install">
+            <bootloader name="custom" />
+            <oemconfig>
+                <oem-resize>false</oem-resize>
+            </oemconfig>
+            <size unit="G">2</size>
+            <partitions>
+                <partition name="home" size="10" mountpoint="/home" filesystem="ext4" />
+            </partitions>
+            <luksformat>
+                <option name="--cipher" value="aegis128-random" />
+                <option name="--key-size" value="128" />
+                <!-- Include transparent dm-integrity support -->
+                <option name="--integrity" value="aead" />
+                <!-- Adjust pbkdf parameters to match the benchmarks on the real hardware.
+                Otherwise, the parameters will be too high and will cause OOM errors -->
+                <option name="--pbkdf" value="argon2id" />
+                <option name="--pbkdf-memory" value="238746" />
+                <option name="--pbkdf-force-iterations" value="4" />
+                <option name="--pbkdf-parallel" value="4" />
+            </luksformat>
+        </type>
+    </preferences>
+
+    <users>
+        <user password="$1$wYJUgpM5$RXMMeASDc035eX.NbYWFl0" home="/root" name="root" groups="root"
+            shell="/bin/ash" />
+    </users>
+    <users>
+        <user password="$1$wYJUgpM5$RXMMeASDc035eX.NbYWFl0" home="/home/admin" name="admin"
+            groups="users" shell="/bin/ash" />
+    </users>
+
+    <repository type="apt-deb" alias="NemOS-Bootstrap-PPA" distribution="lunar" components="main"
+        repository_gpgcheck="false" profiles="bootstrapped,development">
+        <source path="https://ppa.launchpadcontent.net/nemos-team/bootstrap/ubuntu" />
+    </repository>
+    <repository type="apt-deb" alias="NemOS-PPA" distribution="lunar" components="main"
+        repository_gpgcheck="false">
+        <source path="https://ppa.launchpadcontent.net/nemos-team/ppa/ubuntu" />
+    </repository>
+    <repository type="apt-deb" alias="NemOS-Kiwi-Backports-PPA" distribution="lunar"
+        components="main"
+        repository_gpgcheck="false">
+        <source path="https://ppa.launchpadcontent.net/nemos-team/kiwi/ubuntu" />
+    </repository>
+    <repository type="apt-deb" alias="Lunar-security" distribution="lunar-security"
+        components="main multiverse restricted universe" repository_gpgcheck="false">
+        <source path="http://ports.ubuntu.com/ubuntu-ports/" />
+    </repository>
+    <repository type="apt-deb" alias="Lunar-updates" distribution="lunar-updates"
+        components="main multiverse restricted universe" repository_gpgcheck="false">
+        <source path="http://ports.ubuntu.com/ubuntu-ports/" />
+    </repository>
+    <repository type="apt-deb" alias="Lunar" distribution="lunar"
+        components="main multiverse restricted universe" repository_gpgcheck="false">
+        <source path="http://ports.ubuntu.com/ubuntu-ports/" />
+    </repository>
+
+    <packages type="image">
+        <!-- kernel -->
+        <package name="linux-s32-nemos" />
+        <package name="linux-tools-s32-nemos" />
+        <!-- Base packages -->
+        <package name="usrmerge" />
+        <package name="netbase" />
+        <package name="netplan.io" />
+        <package name="sudo" />
+        <package name="cron" />
+        <package name="xz-utils" />
+        <package name="zstd" />
+        <package name="tuptime" />
+        <package name="polkitd" />
+        <!-- bootloader -->
+        <package name="arm-trusted-firmware-s32" />
+        <package name="nemos-dev-cert" />
+        <package name="nemos-dev-key" />
+        <!-- system -->
+        <package name="busybox-static" />
+        <package name="cryptsetup" />
+        <package name="dracut" />
+        <package name="kiwi-dracut-overlay" />
+        <package name="kiwi-dracut-verity" />
+        <package name="dbus" />
+        <package name="locales" />
+        <package name="systemd" />
+        <package name="systemd-resolved" />
+        <package name="xfsprogs" />
+        <package name="parted" />
+        <!-- Networking tools -->
+        <package name="openssh-client" />
+        <package name="openssh-server" />
+        <package name="net-tools" />
+        <package name="bridge-utils" />
+        <package name="ethtool" />
+        <package name="openssl" />
+        <package name="tftp" />
+        <package name="linuxptp" />
+        <package name="udhcpd" />
+        <package name="udhcpc" />
+        <package name="iptables" />
+    </packages>
+
+    <packages type="image" profiles="development">
+        <!-- dev tools -->
+        <package name="vim" />
+        <!-- snaps -->
+        <package name="snapd" />
+        <package name="xdelta3" />
+        <!-- testing tools for checkbox -->
+        <package name="fwts" />
+        <package name="stress-ng" />
+        <package name="ipmitool" />
+        <package name="dmidecode" />
+        <package name="sosreport" />
+        <package name="apport" />
+        <package name="dkms" />
+        <package name="mokutil" />
+    </packages>
+
+    <!-- Bootstrap configuration -->
+    <packages type="bootstrap" bootstrap_package="kiwi-bootstrap-lunar"
+        profiles="bootstrapped,development">
+        <package name="ca-certificates" />
+        <package name="apt-transport-https" />
+    </packages>
+    <packages type="bootstrap" profiles="default">
+        <package name="ca-certificates" />
+        <package name="apt-transport-https" />
+    </packages>
+</image>

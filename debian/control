@@ -38,6 +38,7 @@ Depends:
  ${misc:Depends},
  kiwi,
  kiwi-systemdeps,
+ ssl-cert,
 Suggests: jing
 Description: Kiwi NemOS reference appliance descriptions
  Lunar image descriptions for targets for use with Kiwi which demonstrate

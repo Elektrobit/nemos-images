@@ -1,0 +1,18 @@
+---
+
+summary: "Verify required package list"
+
+systems:
+  - "nemos-image-reference-*"
+
+execute: |
+  PACKAGE_LIST="
+    busybox-static
+    cryptsetup-bin
+    strace
+    systemtap
+  "
+
+  for pkg in ${PACKAGE_LIST}; do
+    test "$(dpkg -l ${pkg} | awk '{ if ($1 == "ii") print $2;}')" = "${pkg}"
+  done

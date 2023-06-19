@@ -27,6 +27,7 @@ rm -f /boot/vmlinuz.old
 rm -rf /var/backups
 rm -rf /usr/share/man
 rm -rf /usr/share/i18n
+rm -rf /usr/lib/*/gconv
 
 #==================================
 # Delete docs but retain copyright notices

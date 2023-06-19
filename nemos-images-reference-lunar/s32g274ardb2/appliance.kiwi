@@ -110,6 +110,7 @@
         <package name="locales" />
         <package name="systemd" />
         <package name="systemd-resolved" />
+        <package name="systemd-coredump" />
         <package name="xfsprogs" />
         <package name="parted" />
         <!-- Networking tools -->

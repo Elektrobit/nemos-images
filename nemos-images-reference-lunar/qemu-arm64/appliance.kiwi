@@ -125,6 +125,8 @@
         <package name="udhcpd" />
         <package name="udhcpc" />
         <package name="iptables" />
+        <!-- debugging tools -->
+        <package name="strace" />
     </packages>
 
     <packages type="image" profiles="development">

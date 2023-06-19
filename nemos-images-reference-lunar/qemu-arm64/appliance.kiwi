@@ -127,6 +127,7 @@
         <package name="iptables" />
         <!-- debugging tools -->
         <package name="strace" />
+        <package name="systemtap" />
     </packages>
 
     <packages type="image" profiles="development">

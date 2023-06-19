@@ -26,7 +26,7 @@ rm -f /boot/vmlinuz.old
 #----------------------------------
 rm -rf /var/backups
 rm -rf /usr/share/man
-rm -rf /usr/lib/x86_64-linux-gnu/gconv
+rm -rf /usr/lib/*/gconv
 
 #==================================
 # Delete docs but retain copyright notices

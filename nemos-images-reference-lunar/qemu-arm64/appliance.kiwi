@@ -51,7 +51,7 @@
         <user password="$1$wYJUgpM5$RXMMeASDc035eX.NbYWFl0" home="/root" name="root" groups="root"
             shell="/bin/ash" />
         <user password="$1$wYJUgpM5$RXMMeASDc035eX.NbYWFl0" home="/home/admin" name="admin"
-            groups="users" shell="/bin/ash" />
+            groups="users,systemd-journal,systemd-coredump" shell="/bin/ash" />
     </users>
 
     <repository type="apt-deb" alias="NemOS-Bootstrap-PPA" distribution="lunar" components="main"

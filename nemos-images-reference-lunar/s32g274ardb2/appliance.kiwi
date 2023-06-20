@@ -112,6 +112,7 @@
         <package name="systemd-resolved" />
         <package name="xfsprogs" />
         <package name="parted" />
+        <package name="auditd" />
         <!-- Networking tools -->
         <package name="openssh-client" />
         <package name="openssh-server" />

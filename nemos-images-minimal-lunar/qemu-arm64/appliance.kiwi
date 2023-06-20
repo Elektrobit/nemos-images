@@ -41,6 +41,10 @@
     <repository type="apt-deb" alias="NemOS-PPA" distribution="lunar" components="main" repository_gpgcheck="false">
         <source path="https://ppa.launchpadcontent.net/nemos-team/ppa/ubuntu" />
     </repository>
+    <repository type="apt-deb" alias="NemOS-Kiwi-Backports-PPA" distribution="lunar" components="main"
+        repository_gpgcheck="false">
+        <source path="https://ppa.launchpadcontent.net/nemos-team/kiwi/ubuntu" />
+    </repository>
     <repository type="apt-deb" alias="Lunar-security" distribution="lunar-security" components="main multiverse restricted universe" repository_gpgcheck="false">
         <source path="http://ports.ubuntu.com/"/>
     </repository>

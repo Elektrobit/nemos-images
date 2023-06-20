@@ -83,6 +83,7 @@ aarch64)
 	EFI_PATH="/usr/share/AAVMF/AAVMF_CODE.fd"
 	MACHINE="virt"
 	QEMU_CPU="cortex-a53"
+	TPM_DEVICE="tpm-tis-device"
 	;;
 amd64)
 	# Correct for mismatched arch naming scheme
@@ -93,6 +94,7 @@ x86_64)
 	EFI_PATH="/usr/share/OVMF/OVMF_CODE.fd"
 	MACHINE="q35"
 	QEMU_CPU="qemu64"
+	TPM_DEVICE="tpm-tis"
 	;;
 *)
 	echo "Invalid architecture: ${ARCH}"
@@ -118,18 +120,36 @@ NVRAM=$(mktemp)
 cp "${NVRAM_PATH}" "${NVRAM}"
 
 if [ -z "${TELNET_PORT}" ]; then
-	QEMU_ARGS="${QEMU_ARGS} -serial mon:stdio"
+	QEMU_ARGS="${QEMU_ARGS}
+	-serial mon:stdio"
 else
 	echo "Telnet console access will be available on localhost port ${TELNET_PORT}"
-	QEMU_ARGS="${QEMU_ARGS} -serial telnet:127.0.0.1:${TELNET_PORT},server,nowait"
+	QEMU_ARGS="${QEMU_ARGS}
+	-serial telnet:127.0.0.1:${TELNET_PORT},server,nowait"
 fi
 
 if [ -n "${PID_FILE}" ]; then
-	QEMU_ARGS="${QEMU_ARGS} -pidfile ${PID_FILE}"
+	QEMU_ARGS="${QEMU_ARGS}
+	-pidfile ${PID_FILE}"
 fi
 
 if [ -n "${DAEMONISE}" ]; then
-	QEMU_ARGS="${QEMU_ARGS} -daemonize"
+	QEMU_ARGS="${QEMU_ARGS}
+	-daemonize"
+fi
+
+if command -v swtpm > /dev/null; then
+	SWTPM_DIR=$(mktemp -d)
+	SWTPM_PID=$(mktemp)
+	QEMU_ARGS="${QEMU_ARGS}
+	-chardev socket,id=chrtpm,path=${SWTPM_DIR}/swtpm-sock
+	-tpmdev emulator,id=tpm0,chardev=chrtpm
+	-device ${TPM_DEVICE},tpmdev=tpm0"
+	swtpm socket --tpm2 -d -t \
+		--tpmstate dir="${SWTPM_DIR}" \
+		--ctrl type=unixio,path="${SWTPM_DIR}/swtpm-sock"
+else
+	echo "swtpm was not found; not adding a TPM device"
 fi
 
 echo "SSH access will be available on localhost port ${SSH_PORT}"
@@ -150,3 +170,6 @@ ${QEMU_CMD} \
 	-drive file="${VM_IMAGE}",if=virtio
 
 rm "${NVRAM}"
+if [ -n "${SWTPM_DIR}" ]; then
+	rm -rf "${SWTPM_DIR}"
+fi

@@ -112,6 +112,7 @@
         <package name="xfsprogs" />
         <package name="parted" />
         <package name="auditd" />
+        <package name="tpm2-tools" />
         <!-- Networking tools -->
         <package name="openssh-client" />
         <package name="openssh-server" />

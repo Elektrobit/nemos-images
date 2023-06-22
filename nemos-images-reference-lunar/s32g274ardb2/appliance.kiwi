@@ -143,7 +143,6 @@
         <package name="ipmitool" />
         <package name="dmidecode" />
         <package name="sosreport" />
-        <package name="apport" />
         <package name="dkms" />
         <package name="mokutil" />
     </packages>

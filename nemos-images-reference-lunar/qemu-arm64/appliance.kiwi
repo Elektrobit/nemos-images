@@ -111,6 +111,8 @@
         <package name="parted" />
         <package name="auditd" />
         <package name="tpm2-tools" />
+        <package name="mokutil" />
+        <package name="sbsigntool" />
         <!-- Networking tools -->
         <package name="openssh-client" />
         <package name="openssh-server" />
@@ -141,7 +143,6 @@
         <package name="dmidecode" />
         <package name="sosreport" />
         <package name="dkms" />
-        <package name="mokutil" />
     </packages>
 
     <!-- Bootstrap configuration -->

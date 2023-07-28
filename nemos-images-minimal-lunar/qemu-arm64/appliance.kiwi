@@ -66,10 +66,8 @@
         <package name="cron"/>
         <package name="zstd"/>
         <!-- bootloader -->
-        <package name="grub-common" />
         <package name="grub2-common" />
-        <package name="grub-efi-arm64" />
-        <package name="grub-efi-arm64-bin" />
+        <package name="grub-efi-arm64-signed" />
         <!-- system -->
         <package name="systemd"/>
         <package name="networkd-dispatcher"/>

@@ -94,10 +94,8 @@
         <package name="tuptime" />
         <package name="polkitd" />
         <!-- bootloader -->
-        <package name="grub-common" arch="x86_64"/>
-        <package name="grub2-common" arch="x86_64"/>
-        <package name="grub-pc-bin" arch="x86_64"/>
-        <package name="grub-efi-amd64-bin" arch="x86_64"/>
+        <package name="grub-pc" />
+        <package name="grub-efi-amd64-signed" />
         <!-- system -->
         <package name="busybox-static" />
         <package name="cryptsetup" />

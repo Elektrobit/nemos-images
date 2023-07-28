@@ -83,8 +83,8 @@
 
     <packages type="image">
         <!-- kernel -->
-        <package name="linux-s32-nemos"/>
-        <package name="linux-tools-s32-nemos"/>
+        <package name="linux-s32-eb" />
+        <package name="linux-tools-s32-eb" />
         <!-- Base packages -->
         <package name="usrmerge" />
         <package name="netbase" />

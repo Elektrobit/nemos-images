@@ -51,7 +51,7 @@
 
     <packages type="image">
         <!-- kernel -->
-        <package name="linux-s32-nemos"/>
+        <package name="linux-s32-eb" />
         <!-- network, ssh, sudo -->
         <package name="openssh-client"/>
         <package name="openssh-server"/>

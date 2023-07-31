@@ -36,10 +36,16 @@ backends:
       kill -9 $(cat /tmp/${SPREAD_BACKEND}-${SPREAD_SYSTEM}.pid)
       rm -f /tmp/${SPREAD_BACKEND}-${SPREAD_SYSTEM}.pid
     systems:
-      - nemos-image-reference-lunar:
+      - nemos-image-reference-lunar-amd64:
           username: admin
           password: linux
-      - nemos-image-minimal-lunar:
+      - nemos-image-minimal-lunar-amd64:
+          username: admin
+          password: linux
+      - nemos-image-reference-lunar-arm64:
+          username: admin
+          password: linux
+      - nemos-image-minimal-lunar-arm64:
           username: admin
           password: linux
 

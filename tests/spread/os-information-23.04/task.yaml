@@ -3,7 +3,7 @@
 summary: "Verify Ubuntu 23.04 OS release information"
 
 systems:
-  - "nemos-image-*-lunar"
+  - "nemos-image-*-lunar-*"
 
 execute: |
   . /etc/os-release

@@ -35,12 +35,12 @@ jobs:
             system build --target-dir build \
             --description nemos-images-${{ matrix.config }}-${{ matrix.series }}/qemu-amd64/
           sudo mv build/nemos-image-${{ matrix.config }}-${{ matrix.series }}.*.qcow2 \
-            nemos-image-${{ matrix.config }}-${{ matrix.series }}.qcow2
+            nemos-image-${{ matrix.config }}-${{ matrix.series }}-amd64.qcow2
       - name: "Archive"
         uses: "actions/upload-artifact@v3"
         with:
-          name: "nemos-image-${{ matrix.config }}-${{ matrix.series }}"
-          path: "nemos-image-${{ matrix.config }}-${{ matrix.series }}.qcow2"
+          name: "nemos-image-${{ matrix.config }}-${{ matrix.series }}-amd64"
+          path: "nemos-image-${{ matrix.config }}-${{ matrix.series }}-amd64.qcow2"
   spread:
     runs-on: "ubuntu-latest"
     needs: "qemu-amd64"
@@ -67,4 +67,6 @@ jobs:
           mv -v nemos-image-*/*.qcow2 ~/.spread/adhoc/
       - name: "Run the spread tests inside QEMU"
         run: |
-          ~/go/bin/spread -v adhoc:
+          # Currently, we only support amd64. Use the spread wildcard selector
+          # to make sure we only run those images.
+          ~/go/bin/spread -v "adhoc:...-amd64"

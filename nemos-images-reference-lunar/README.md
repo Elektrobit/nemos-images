@@ -147,7 +147,7 @@ Required packages:
 * `qemu-system-x86_64`
 * `ovmf` (UEFI firmware)
 
-The `run_qemu_amd64.sh` script can be used to quickly execute the virtual machine with
+The `run_qemu.sh` script can be used to quickly execute the virtual machine with
 the correct configuration.
 
 ### AArch64
@@ -157,5 +157,5 @@ Required packages:
 * `qemu-system-aarch64`
 * `qemu-efi-aarch64` (UEFI firmware)
 
-The `run_qemu_arm64.sh` script can be used to quickly execute the virtual machine
+The `run_qemu.sh` script can be used to quickly execute the virtual machine
 with the correct configuration.

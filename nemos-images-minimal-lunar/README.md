@@ -73,33 +73,18 @@ same manner, or by omitting the profile parameter.
 
 Required packages:
 
-* `qemu-system-x86_64` (plus KVM for better performance)
+* `qemu-system-x86_64`
+* `ovmf` (UEFI firmware)
 
-Use the following command line to boot the VM:
+The `run_qemu.sh` script can be used to quickly execute the virtual machine with
+the correct configuration.
 
-.. code:: bash
-
-    qemu-system-x86_64 \
-        -m 1G \
-        -drive file=<path-to-file-here>.qcow2,if=virtio,driver=qcow2 \
-        -nographic \
-        -serial stdio
-
-### aarch64
+### AArch64
 
 Required packages:
 
-* `qemu-system-arm`
-* `u-boot-qemu`
+* `qemu-system-aarch64`
+* `qemu-efi-aarch64` (UEFI firmware)
 
-Use the following command line to boot the VM:
-
-.. code:: bash
-
-    qemu-system-aarch64 \
-        -m 1G \
-        -machine virt \
-        -cpu cortex-a57 \
-        -drive file=<path-to-file-here>.qcow2,if=virtio,driver=qcow2,cache=off \
-        -nographic \
-        -bios /usr/lib/u-boot/qemu_arm64/u-boot.bin
+The `run_qemu.sh` script can be used to quickly execute the virtual machine
+with the correct configuration.

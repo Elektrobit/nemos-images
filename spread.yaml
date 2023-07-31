@@ -7,28 +7,19 @@ path: /tmp/nemos
 backends:
   adhoc:
     allocate: |
+      ARCH="$(echo ${SPREAD_SYSTEM} | rev | cut -f1 -d- | rev)"
       VM_IMAGE="${HOME}/.spread/${SPREAD_BACKEND}/${SPREAD_SYSTEM}.qcow2"
-      NVRAM="/tmp/${SPREAD_BACKEND}-${SPREAD_SYSTEM}.fd"
+      PID_FILE="/tmp/${SPREAD_BACKEND}-${SPREAD_SYSTEM}.pid"
 
       if [ ! -f "${VM_IMAGE}" ]; then
         FATAL "File not found: ${VM_IMAGE}"
       fi
 
+      # Might need a more reliable way to get a free port...
       SSH_PORT=$((30000 + $RANDOM % 20000))
 
-      cp /usr/share/OVMF/OVMF_VARS.fd ${NVRAM}
-
-      qemu-system-x86_64 -M q35 -m 1G -daemonize \
-        -drive file="/usr/share/OVMF/OVMF_CODE.fd",readonly=on,if=pflash,format=raw,unit=0 \
-        -drive file="${NVRAM}",if=pflash,format=raw,unit=1 \
-        -drive file="${VM_IMAGE}",format=qcow2,if=virtio \
-        -netdev user,id=user0,hostfwd=tcp:127.0.0.1:${SSH_PORT}-:22 \
-        -device netdev=user0,driver=virtio-net-pci \
-        -object rng-random,filename=/dev/urandom,id=rng0 \
-        -device virtio-rng-pci,rng=rng0 \
-        -serial telnet:127.0.0.1:$((${SSH_PORT} + 1)),server,nowait \
-        -parallel null -monitor none -display none -vga none \
-        -pidfile /tmp/${SPREAD_BACKEND}-${SPREAD_SYSTEM}.pid
+      ./run_qemu.sh -f "${VM_IMAGE}" -p "${PID_FILE}" -d \
+        -s "${SSH_PORT}" -t "$(($SSH_PORT + 1))" -a "${ARCH}"
 
       # Try up to 500 times to see if the SSH connection is available earlier
       for i in $(seq 1 500); do
@@ -43,7 +34,7 @@ backends:
       ADDRESS 127.0.0.1:${SSH_PORT}
     discard: |
       kill -9 $(cat /tmp/${SPREAD_BACKEND}-${SPREAD_SYSTEM}.pid)
-      rm -f /tmp/${SPREAD_BACKEND}-${SPREAD_SYSTEM}.{fd,pid}
+      rm -f /tmp/${SPREAD_BACKEND}-${SPREAD_SYSTEM}.pid
     systems:
       - nemos-image-reference-lunar:
           username: admin

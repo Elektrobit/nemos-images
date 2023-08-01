@@ -167,7 +167,8 @@ ${QEMU_CMD} \
 	-device virtio-net-pci,netdev=user0 \
 	-object rng-random,filename=/dev/urandom,id=rng0 \
 	-device virtio-rng-pci,rng=rng0 \
-	-drive file="${VM_IMAGE}",if=virtio
+	-drive file="${VM_IMAGE}",if=virtio \
+	-device i6300esb,id=watchdog0 -watchdog-action reset
 
 rm "${NVRAM}"
 if [ -n "${SWTPM_DIR}" ]; then

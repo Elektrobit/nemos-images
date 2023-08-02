@@ -3,7 +3,7 @@ name: nemos-images
 on:
   pull_request: {}
 jobs:
-  qemu-amd64:
+  qemu:
     runs-on: "ubuntu-latest"
     strategy:
       matrix:
@@ -13,6 +13,9 @@ jobs:
         config:
           - minimal
           - reference
+        arch:
+          - amd64
+          - arm64
     steps:
       - name: "Checkout"
         uses: "actions/checkout@v3"
@@ -25,23 +28,46 @@ jobs:
         run: |
           sudo apt install -y software-properties-common
           sudo add-apt-repository -y ppa:nemos-team/kiwi
-      - name: "Install Kiwi"
+      - name: "Install Kiwi and dependencies"
         run: |
           sudo DEBIAN_FRONTEND="noninteractive" \
-            apt install -y kiwi kiwi-systemdeps
+            apt install -y kiwi kiwi-systemdeps python3-kiwi-boxed-plugin \
+              golang sshpass qemu-system-x86 ovmf qemu-system-arm \
+              qemu-efi-aarch64
       - name: "Run Kiwi"
         run: |
-          sudo kiwi-ng --debug --profile bootstrapped \
-            --config nemos-images-${{ matrix.config }}-${{ matrix.series }}/kiwi.yaml \
-            system build --target-dir build \
-            --description nemos-images-${{ matrix.config }}-${{ matrix.series }}/qemu-amd64/
-          sudo mv build/nemos-image-${{ matrix.config }}-${{ matrix.series }}.*.qcow2 \
-            nemos-image-${{ matrix.config }}-${{ matrix.series }}-amd64.qcow2
-      - name: "Archive"
-        uses: "actions/upload-artifact@v3"
-        with:
-          name: "nemos-image-${{ matrix.config }}-${{ matrix.series }}-amd64"
-          path: "nemos-image-${{ matrix.config }}-${{ matrix.series }}-amd64.qcow2"
+          BUILD_DIR="$(mktemp -d)"
+          # If we are building for amd64, then we can build natively. Otherwise,
+          # we need to use the Kiwi boxbuild plugin to build in a VM
+          if [ "${{ matrix.arch }}" = "amd64" ]; then
+            sudo kiwi-ng --debug --profile bootstrapped \
+              --config nemos-images-${{ matrix.config }}-${{ matrix.series }}/kiwi.yaml \
+              system build --target-dir "${BUILD_DIR}" \
+              --description nemos-images-${{ matrix.config }}-${{ matrix.series }}/qemu-${{ matrix.arch}}/
+          else
+            sudo kiwi-ng --debug --profile bootstrapped \
+              system boxbuild \
+              --box ubuntu --aarch64 --machine=virt --no-accel --cpu cortex-a53 \
+              --box-memory=$(( 2 * 1024 )) --box-smp-cpus=2 -- \
+              --target-dir "${BUILD_DIR}" \
+              --description nemos-images-${{ matrix.config }}-${{ matrix.series }}/qemu-${{ matrix.arch }}/
+          fi
+
+          # Copy the resulting image to the spread directory
+          mkdir -p ~/.spread/adhoc
+          sudo mv -v "${BUILD_DIR}"/*.qcow2 \
+            ~/.spread/adhoc/nemos-image-${{ matrix.config }}-${{ matrix.series }}-${{ matrix.arch }}.qcow2
+          sudo chmod a+rw ~/.spread/adhoc/*.qcow2
+
+          # Clean up
+          sudo rm -rf "${BUILD_DIR}"
+      - name: "Install spread"
+        run: |
+          go clean -modcache
+          go install github.com/snapcore/spread/cmd/spread@latest
+      - name: "Run the spread tests inside QEMU"
+        run: |
+         ~/go/bin/spread -v "adhoc:nemos-image-${{ matrix.config }}-${{ matrix.series }}-${{ matrix.arch }}"
   s32g274ardb2:
     runs-on: "ubuntu-latest"
     strategy:
@@ -77,33 +103,3 @@ jobs:
             --box-memory=$(( 2 * 1024 )) --box-smp-cpus=2 -- \
             --target-dir build \
             --description nemos-images-${{ matrix.config }}-${{ matrix.series }}/s32g274ardb2/
-
-  spread:
-    runs-on: "ubuntu-latest"
-    needs: "qemu-amd64"
-    steps:
-      - uses: "actions/checkout@v3"
-      - name: "Update system packages"
-        run: |
-          sudo apt update
-          sudo DEBIAN_FRONTEND="noninteractive" \
-            apt full-upgrade -y
-      - name: "Install dependencies"
-        run: |
-          sudo DEBIAN_FRONTEND="noninteractive" \
-            apt install -y golang ovmf qemu-system-x86 sshpass
-      - name: "Install spread"
-        run: |
-          go clean -modcache
-          go install github.com/snapcore/spread/cmd/spread@latest
-      - name: "Download QEMU images"
-        uses: actions/download-artifact@v3
-      - name: "Copy QEMU images to spread directory"
-        run: |
-          mkdir -p ~/.spread/adhoc
-          mv -v nemos-image-*/*.qcow2 ~/.spread/adhoc/
-      - name: "Run the spread tests inside QEMU"
-        run: |
-          # Currently, we only support amd64. Use the spread wildcard selector
-          # to make sure we only run those images.
-          ~/go/bin/spread -v "adhoc:...-amd64"

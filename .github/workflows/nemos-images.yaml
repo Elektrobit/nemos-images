@@ -41,9 +41,46 @@ jobs:
         with:
           name: "nemos-image-${{ matrix.config }}-${{ matrix.series }}-amd64"
           path: "nemos-image-${{ matrix.config }}-${{ matrix.series }}-amd64.qcow2"
+  qemu-arm64:
+    runs-on: "ubuntu-latest"
+    strategy:
+      matrix:
+        series:
+          - lunar
+        config:
+          - minimal
+          - reference
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v3"
+      - uses: pguyot/arm-runner-action@v2
+        with:
+          base_image: https://cdimage.ubuntu.com/ubuntu-server/jammy/daily-preinstalled/current/jammy-preinstalled-server-arm64+raspi.img.xz
+          cpu: cortex-a53
+          copy_artifact_path: "build/*.qcow2"
+          image_additional_mb: 8192
+          commands: |
+            sudo apt update
+            sudo apt full-upgrade -y
+            sudo apt install -y software-properties-common
+            sudo add-apt-repository -y ppa:nemos-team/kiwi
+            sudo DEBIAN_FRONTEND="noninteractive" \
+              apt install -y kiwi kiwi-systemdeps
+            sudo kiwi-ng --debug --profile bootstrapped \
+              --config nemos-images-${{ matrix.config }}-${{ matrix.series }}/kiwi.yaml \
+              system build --target-dir build \
+              --description nemos-images-${{ matrix.config }}-${{ matrix.series }}/qemu-arm64/
+      - name: "Archive"
+        uses: "actions/upload-artifact@v3"
+        with:
+          name: "nemos-image-${{ matrix.config }}-${{ matrix.series }}-arm64"
+          path: "nemos-image-${{ matrix.config }}-${{ matrix.series }}-arm64.qcow2"
+
   spread:
     runs-on: "ubuntu-latest"
-    needs: "qemu-amd64"
+    needs:
+      - "qemu-amd64"
+      - "qemu-arm64"
     steps:
       - uses: "actions/checkout@v3"
       - name: "Update system packages"
@@ -66,7 +103,4 @@ jobs:
           mkdir -p ~/.spread/adhoc
           mv -v nemos-image-*/*.qcow2 ~/.spread/adhoc/
       - name: "Run the spread tests inside QEMU"
-        run: |
-          # Currently, we only support amd64. Use the spread wildcard selector
-          # to make sure we only run those images.
-          ~/go/bin/spread -v "adhoc:...-amd64"
+        run: "~/go/bin/spread -v adhoc:"

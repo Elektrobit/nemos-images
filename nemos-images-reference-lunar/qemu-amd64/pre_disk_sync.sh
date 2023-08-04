@@ -14,8 +14,8 @@ ln -sr /boot/initrd-* /boot/initrd
 for package in \
     $(apt list --installed | grep ^linux-headers | cut -f 1 -d/) \
     $(apt list --installed | grep ^linux-modules-extra | cut -f 1 -d/) \
-    linux-image-s32-nemos \
-    linux-s32-nemos \
+    linux-image-s32-eb \
+    linux-s32-eb \
     linux-firmware \
     coreutils \
     tar \

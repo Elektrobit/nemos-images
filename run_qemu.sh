@@ -12,12 +12,14 @@ TELNET_PORT=""
 SSH_PORT="10022"
 DAEMONISE=""
 PID_FILE=""
+NO_EFI_STORAGE_PERSIST=""
+OVERWRITE_EFI=""
 
 function print_usage {
 	echo "$(basename "${0}"): run an EFI-based NemOS image using QEMU"
 	echo "Made by the NemOS Team <nemos-team@lists.launchpad.net>"
 	echo ""
-	echo "Usage: $(basename "${0}") [-h][-?] -f <path> [-a arch] [-m memory] [-c cpus] [-s port] [-t port] [-p pid] [-d]"
+	echo "Usage: $(basename "${0}") [-h][-?] -f <path> [-a arch] [-m memory] [-c cpus] [-s port] [-t port] [-p pid] [-d] [-e] [-o]"
 	echo ""
 	echo "  -h/-?: Print this help message"
 	echo "  -f:    Path to VM image (required)"
@@ -28,9 +30,11 @@ function print_usage {
 	echo "  -t:    Enable telnet console access on the given port number"
 	echo "  -p:    Write the process PID to the given file"
 	echo "  -d:    Daemonise the VM process"
+	echo "  -e:    Do not use persistent EFI storage (normally it will be saved to /tmp/<VM image file name>.efivars)"
+	echo "  -o:    Overwrite any existing EFI variable storage"
 }
 
-while getopts "h?a:f:c:m:s:t:p:d" opt; do
+while getopts "h?a:f:c:m:s:t:p:deo" opt; do
 	case "${opt}" in
 	h | \?)
 		print_usage
@@ -59,6 +63,12 @@ while getopts "h?a:f:c:m:s:t:p:d" opt; do
 		;;
 	d)
 		DAEMONISE="1"
+		;;
+	e)
+		NO_EFI_STORAGE_PERSIST="1"
+		;;
+	o)
+		OVERWRITE_EFI="1"
 		;;
 	esac
 done
@@ -116,8 +126,18 @@ else
 	QEMU_ARGS="--cpu ${QEMU_CPU}"
 fi
 
-NVRAM=$(mktemp)
-cp "${NVRAM_PATH}" "${NVRAM}"
+if [ -n "${NO_EFI_STORAGE_PERSIST}" ]; then
+	NVRAM=$(mktemp)
+	echo "Using temporary EFI variable storage"
+else
+	NVRAM="/tmp/$(basename "${VM_IMAGE}").efivars"
+	echo "Using semi-persistent EFI variable storage (${NVRAM})"
+fi
+
+if [ ! -f "${NVRAM}" ] || [ -n "${OVERWRITE_EFI}" ]; then
+	echo "Copying EFI NVRAM base (${NVRAM_PATH}) to ${NVRAM}"
+	cp "${NVRAM_PATH}" "${NVRAM}"
+fi
 
 if [ -z "${TELNET_PORT}" ]; then
 	QEMU_ARGS="${QEMU_ARGS}
@@ -170,7 +190,10 @@ ${QEMU_CMD} \
 	-drive file="${VM_IMAGE}",if=virtio \
 	-device i6300esb,id=watchdog0 -watchdog-action reset
 
-rm "${NVRAM}"
+if [ -n "${NO_EFI_STORAGE_PERSIST}" ]; then
+	rm "${NVRAM}"
+fi
+
 if [ -n "${SWTPM_DIR}" ]; then
 	rm -rf "${SWTPM_DIR}"
 fi

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- SPDX-License-Identifier: GPL-2.0-or-later -->
+
+<image schemaversion="7.4" name="nemos-image-minimal-mantic">
+    <description type="system">
+        <author>nemOS Team</author>
+        <contact>nemos-team@lists.launchpad.net</contact>
+        <specification>x86 grub disk test build that applies several aspects of embedded images</specification>
+    </description>
+
+    <profiles>
+        <profile name="bootstrapped" description="build the image using a bootstrap archive"/>
+        <profile name="default" description="build the image using debootstrap" import="true"/>
+    </profiles>
+
+    <preferences>
+        <version>1.0.1</version>
+        <packagemanager>apt</packagemanager>
+        <type image="oem" filesystem="ext2" firmware="efi" initrd_system="dracut" overlayroot="true" overlayroot_write_partition="false" overlayroot_readonly_partsize="62" bootpartition="true" bootpartsize="120" format="qcow2" devicepersistency="by-partuuid" kernelcmdline="console=ttyS0 rd.root.overlay.readonly">
+            <bootloader name="grub2" console="console" timeout="0" />
+            <oemconfig>
+                <oem-resize>false</oem-resize>
+            </oemconfig>
+            <size unit="M">256</size>
+            <partitions>
+                <partition name="home" size="5" mountpoint="/home" filesystem="ext2"/>
+            </partitions>
+        </type>
+    </preferences>
+
+    <users>
+        <user password="$1$wYJUgpM5$RXMMeASDc035eX.NbYWFl0" home="/root" name="root" groups="root" shell="/bin/ash"/>
+        <user password="$1$wYJUgpM5$RXMMeASDc035eX.NbYWFl0" home="/home/admin" name="admin" groups="users" shell="/bin/ash"/>
+    </users>
+
+    <repository type="apt-deb" alias="NemOS-Bootstrap-PPA" distribution="mantic" components="main" repository_gpgcheck="false" profiles="bootstrapped">
+        <source path="https://ppa.launchpadcontent.net/nemos-team/bootstrap/ubuntu"/>
+    </repository>
+    <repository type="apt-deb" alias="NemOS-PPA" distribution="mantic" components="main" repository_gpgcheck="false">
+        <source path="https://ppa.launchpadcontent.net/nemos-team/ppa/ubuntu" />
+    </repository>
+    <repository type="apt-deb" alias="NemOS-Kiwi-Backports-PPA" distribution="mantic" components="main"
+        repository_gpgcheck="false">
+        <source path="https://ppa.launchpadcontent.net/nemos-team/kiwi/ubuntu" />
+    </repository>
+    <repository type="apt-deb" alias="mantic-security" distribution="mantic-security" components="main multiverse restricted universe" repository_gpgcheck="false">
+        <source path="http://security.ubuntu.com/ubuntu"/>
+    </repository>
+    <repository type="apt-deb" alias="mantic-updates" distribution="mantic-updates" components="main multiverse restricted universe" repository_gpgcheck="false">
+        <source path="http://archive.ubuntu.com/ubuntu/"/>
+    </repository>
+    <repository type="apt-deb" alias="mantic" distribution="mantic" components="main multiverse restricted universe" repository_gpgcheck="false">
+        <source path="http://archive.ubuntu.com/ubuntu/"/>
+    </repository>
+
+    <packages type="image">
+        <!-- kernel -->
+        <package name="linux-s32-eb" />
+        <!-- network, ssh, sudo -->
+        <package name="openssh-client"/>
+        <package name="openssh-server"/>
+        <package name="usrmerge"/>
+        <package name="netbase"/>
+        <package name="netplan.io"/>
+        <package name="sudo"/>
+        <package name="cron"/>
+        <package name="zstd"/>
+        <!-- bootloader -->
+        <package name="grub-pc" />
+        <package name="grub-efi-amd64-signed" />
+        <!-- system -->
+        <package name="systemd"/>
+        <package name="networkd-dispatcher"/>
+        <package name="dbus"/>
+        <package name="dracut"/>
+        <package name="locales"/>
+        <package name="busybox-static"/>
+        <package name="kiwi-dracut-overlay"/>
+    </packages>
+
+    <packages type="bootstrap" bootstrap_package="kiwi-bootstrap-mantic" profiles="bootstrapped">
+        <package name="ca-certificates" />
+        <package name="apt-transport-https" />
+    </packages>
+    <packages type="bootstrap" profiles="default">
+        <package name="ca-certificates" />
+        <package name="apt-transport-https" />
+    </packages>
+</image>

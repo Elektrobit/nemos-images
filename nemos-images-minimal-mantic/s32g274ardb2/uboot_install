@@ -1,0 +1,59 @@
+#!/bin/bash
+# SPDX-License-Identifier: GPL-2.0-or-later
+set -ex
+
+#=======================================
+# Get base loop device name
+#---------------------------------------
+DISK_NAME="$1"
+ROOT_DEV="$2"
+LOOP_NAME="$(basename ${ROOT_DEV} | cut -f 1-2 -d'p')"
+
+#=======================================
+# Get root UUID
+#---------------------------------------
+ROOT_PARTUUID="$(blkid -s PARTUUID -o value /dev/mapper/${LOOP_NAME}p3)"
+
+#=======================================
+# Mount boot partition
+#---------------------------------------
+BOOT_MOUNT="$(mktemp -d /tmp/bootmount-XXX)"
+mount "/dev/mapper/${LOOP_NAME}p1" "${BOOT_MOUNT}" || exit 1
+
+#=======================================
+# Update boot arguments
+#---------------------------------------
+BOOTARGS="console=ttyLF0,115200 earlycon root=/dev/disk/by-partuuid/${ROOT_PARTUUID} rootwait ro"
+fdtput -p -t s "${BOOT_MOUNT}/dtb" /chosen bootargs "${BOOTARGS}"
+
+#=======================================
+# Create fit image
+#---------------------------------------
+FIT="$(mktemp)"
+sed -i "s;@@PATH@@;${BOOT_MOUNT};" "${BOOT_MOUNT}/fitImage.its"
+mkimage -f "${BOOT_MOUNT}/fitImage.its" -k "${BOOT_MOUNT}" -r "${FIT}"
+
+#=======================================
+# Install U-Boot to disk
+#---------------------------------------
+dd if="${BOOT_MOUNT}/fip.s32" of="${DISK_NAME}" \
+    seek=512 skip=512 iflag=skip_bytes oflag=seek_bytes \
+    conv=fsync,notrunc
+
+#=======================================
+# Clean up unneeded files (everything is now in the fit image)
+#---------------------------------------
+rm -rf "${BOOT_MOUNT}/"*
+
+#=======================================
+# Move files to /boot
+#---------------------------------------
+mv "${FIT}" "${BOOT_MOUNT}/fitImage"
+
+#=======================================
+# Clean up
+#---------------------------------------
+umount "${BOOT_MOUNT}"
+rmdir "${BOOT_MOUNT}"
+
+sync

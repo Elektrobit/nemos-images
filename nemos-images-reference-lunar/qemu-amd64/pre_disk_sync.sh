@@ -4,11 +4,6 @@
 set -ex
 
 #=======================================
-# Create initrd link
-#---------------------------------------
-ln -sr /boot/initrd-* /boot/initrd
-
-#=======================================
 # Force delete packages not needed/wanted
 #---------------------------------------
 for package in \

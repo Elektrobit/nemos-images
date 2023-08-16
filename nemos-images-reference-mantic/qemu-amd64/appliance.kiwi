@@ -120,7 +120,6 @@
         <package name="bridge-utils" />
         <package name="ethtool" />
         <package name="openssl" />
-        <package name="tftp" />
         <package name="linuxptp" />
         <package name="udhcpd" />
         <package name="udhcpc" />

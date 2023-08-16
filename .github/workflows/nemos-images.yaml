@@ -9,6 +9,7 @@ jobs:
       matrix:
         series:
           - lunar
+          - mantic
         config:
           - minimal
           - reference

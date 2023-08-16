@@ -1,0 +1,7 @@
+#!/bin/sh
+
+# Override Kiwi's template which tries to boot with the linuxefi command,
+# which doesn't exist in GRUB 2.12
+
+echo "set linux=linux"
+echo "set initrd=initrd"

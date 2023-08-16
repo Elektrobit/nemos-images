@@ -48,6 +48,18 @@ backends:
       - nemos-image-minimal-lunar-arm64:
           username: admin
           password: linux
+      - nemos-image-reference-mantic-amd64:
+          username: admin
+          password: linux
+      - nemos-image-minimal-mantic-amd64:
+          username: admin
+          password: linux
+      - nemos-image-reference-mantic-arm64:
+          username: admin
+          password: linux
+      - nemos-image-minimal-mantic-arm64:
+          username: admin
+          password: linux
 
 suites:
   tests/spread/:

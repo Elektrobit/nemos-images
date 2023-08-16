@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- SPDX-License-Identifier: GPL-2.0-or-later -->
+
+<image schemaversion="7.4" name="nemos-image-reference-mantic">
+    <description type="system">
+        <author>nemOS Team</author>
+        <contact>nemos-team@lists.launchpad.net</contact>
+        <specification>x86 grub disk test build that applies several aspects of embedded images</specification>
+    </description>
+
+    <profiles>
+        <profile name="default" description="build the image using debootstrap" import="true" />
+        <profile name="bootstrapped" description="build the image using a bootstrap archive" />
+        <profile name="development" description="build an image with development tools" />
+    </profiles>
+
+    <preferences>
+        <version>1.0.1</version>
+        <packagemanager>apt</packagemanager>
+        <type image="oem" filesystem="xfs" firmware="efi" initrd_system="dracut"
+            overlayroot="true" overlayroot_write_partition="true"
+            overlayroot_readonly_partsize="1024" squashfscompression="zstd"
+            bootpartition="true" bootpartsize="256" bootfilesystem="ext4" format="qcow2"
+            kernelcmdline="console=ttyS0 rd.systemd.verity=1 root=overlay:MAPPER=verityRoot verityroot=/dev/disk/by-partlabel/p.lxreadonly rd.root.overlay.write=/dev/mapper/luks rd.luks=yes rootwait pstore.backend=efi"
+            verity_blocks="all" embed_verity_metadata="true" luks_version="luks2" luks="insecure">
+            <bootloader name="grub2" console="console" timeout="0" />
+            <oemconfig>
+                <oem-resize>false</oem-resize>
+            </oemconfig>
+            <size unit="G">3</size>
+            <partitions>
+                <partition name="home" size="10" mountpoint="/home" filesystem="ext4" />
+                <partition name="oci-storage" size="512" mountpoint="/var/lib/containers/storage" filesystem="xfs" />
+                <partition name="oci-preloaded" size="512" mountpoint="/var/lib/containers/loaded" filesystem="squashfs" />
+            </partitions>
+            <luksformat>
+                <option name="--cipher" value="aegis128-random"/>
+                <option name="--key-size" value="128"/>
+                <!-- Include transparent dm-integrity support -->
+                <option name="--integrity" value="aead"/>
+                <!-- Adjust pbkdf parameters as the defaults cause OOM errors due to the small VM memory -->
+                <option name="--pbkdf" value="argon2id"/>
+                <option name="--pbkdf-memory" value="178155"/>
+                <option name="--pbkdf-force-iterations" value="4"/>
+                <option name="--pbkdf-parallel" value="2"/>
+              </luksformat>
+        </type>
+    </preferences>
+
+    <users>
+        <user password="$1$wYJUgpM5$RXMMeASDc035eX.NbYWFl0" home="/root" name="root" groups="root"
+            shell="/bin/ash" />
+        <user password="$1$wYJUgpM5$RXMMeASDc035eX.NbYWFl0" home="/home/admin" name="admin"
+            groups="users,systemd-journal,systemd-coredump" shell="/bin/ash" />
+    </users>
+
+    <repository type="apt-deb" alias="NemOS-Bootstrap-PPA" distribution="mantic" components="main"
+        repository_gpgcheck="false" profiles="bootstrapped,development">
+        <source path="https://ppa.launchpadcontent.net/nemos-team/bootstrap/ubuntu" />
+    </repository>
+    <repository type="apt-deb" alias="NemOS-PPA" distribution="mantic" components="main"
+        repository_gpgcheck="false">
+        <source path="https://ppa.launchpadcontent.net/nemos-team/ppa/ubuntu" />
+    </repository>
+    <repository type="apt-deb" alias="NemOS-Kiwi-Backports-PPA" distribution="mantic" components="main"
+        repository_gpgcheck="false">
+        <source path="https://ppa.launchpadcontent.net/nemos-team/kiwi/ubuntu" />
+    </repository>
+    <repository type="apt-deb" alias="mantic-security" distribution="mantic-security"
+        components="main multiverse restricted universe" repository_gpgcheck="false">
+        <source path="http://security.ubuntu.com/ubuntu" />
+    </repository>
+    <repository type="apt-deb" alias="mantic-updates" distribution="mantic-updates"
+        components="main multiverse restricted universe" repository_gpgcheck="false">
+        <source path="http://archive.ubuntu.com/ubuntu/" />
+    </repository>
+    <repository type="apt-deb" alias="mantic" distribution="mantic"
+        components="main multiverse restricted universe" repository_gpgcheck="false">
+        <source path="http://archive.ubuntu.com/ubuntu/" />
+    </repository>
+
+    <packages type="image">
+        <!-- kernel -->
+        <package name="linux-s32-eb"/>
+        <package name="linux-tools-s32-eb"/>
+        <!-- Base packages -->
+        <package name="usrmerge" />
+        <package name="netbase" />
+        <package name="netplan.io" />
+        <package name="sudo" />
+        <package name="cron" />
+        <package name="xz-utils" />
+        <package name="zstd" />
+        <package name="tuptime" />
+        <package name="polkitd" />
+        <!-- bootloader -->
+        <package name="grub-pc" />
+        <package name="grub-efi-amd64-signed" />
+        <!-- system -->
+        <package name="busybox-static" />
+        <package name="cryptsetup" />
+        <package name="dracut" />
+        <package name="kiwi-dracut-overlay" />
+        <package name="kiwi-dracut-verity" />
+        <package name="dbus" />
+        <package name="locales" />
+        <package name="systemd" />
+        <package name="systemd-resolved" />
+        <package name="systemd-coredump" />
+        <package name="xfsprogs" />
+        <package name="parted" />
+        <package name="auditd" />
+        <package name="tpm2-tools" />
+        <package name="mokutil" />
+        <package name="sbsigntool" />
+        <!-- Networking tools -->
+        <package name="openssh-client" />
+        <package name="openssh-server" />
+        <package name="net-tools" />
+        <package name="bridge-utils" />
+        <package name="ethtool" />
+        <package name="openssl" />
+        <package name="tftp" />
+        <package name="linuxptp" />
+        <package name="udhcpd" />
+        <package name="udhcpc" />
+        <package name="iptables" />
+        <!-- debugging tools -->
+        <package name="strace" />
+        <package name="systemtap" />
+    </packages>
+
+    <packages type="image" profiles="development">
+        <!-- dev tools -->
+        <package name="vim" />
+        <!-- snaps -->
+        <package name="snapd" />
+        <package name="xdelta3" />
+        <!-- testing tools for checkbox -->
+        <package name="fwts" />
+        <package name="stress-ng" />
+        <package name="ipmitool" />
+        <package name="dmidecode" />
+        <package name="sosreport" />
+        <package name="dkms" />
+    </packages>
+
+    <!-- Bootstrap configuration -->
+    <packages type="bootstrap" bootstrap_package="kiwi-bootstrap-mantic" profiles="bootstrapped,development">
+        <package name="ca-certificates" />
+        <package name="apt-transport-https" />
+    </packages>
+    <packages type="bootstrap" profiles="default">
+        <package name="ca-certificates" />
+        <package name="apt-transport-https" />
+    </packages>
+</image>

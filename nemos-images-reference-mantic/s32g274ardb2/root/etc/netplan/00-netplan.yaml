@@ -1,0 +1,10 @@
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    eth0:
+      match:
+        name: eth0
+      dhcp4: true
+      dhcp6: true
+      optional: true

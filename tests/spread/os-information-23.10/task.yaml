@@ -1,0 +1,12 @@
+---
+
+summary: "Verify Ubuntu 23.10 OS release information"
+
+systems:
+  - "nemos-image-*-mantic-*"
+
+execute: |
+  . /etc/os-release
+  test "${NAME}" = "Ubuntu"
+  test "${VERSION_ID}" = "23.10"
+  test "${VERSION_CODENAME}" = "mantic"

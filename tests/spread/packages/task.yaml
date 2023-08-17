@@ -9,6 +9,7 @@ execute: |
   PACKAGE_LIST="
     busybox-static
     cryptsetup-bin
+    iotop
     strace
     systemtap
   "

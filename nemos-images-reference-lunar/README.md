@@ -1,5 +1,9 @@
 # nemos-image-reference-lunar
 
+## NOTICE
+
+These images are now deprecated! Use a newer release.
+
 ## Overview
 
 Provides disk test build of a base reference image using standard

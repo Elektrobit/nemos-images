@@ -1,5 +1,9 @@
 # nemos-image-minimal-lunar
 
+## NOTICE
+
+These images are now deprecated! Use a newer release.
+
 ## Motivation
 
 Provides disk test build of a minimal base image using standard

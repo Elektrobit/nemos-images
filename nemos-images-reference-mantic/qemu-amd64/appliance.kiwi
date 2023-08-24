@@ -125,6 +125,7 @@
         <package name="udhcpc" />
         <package name="iptables" />
         <!-- debugging tools -->
+        <package name="kdump-tools" />
         <package name="strace" />
         <package name="systemtap" />
     </packages>

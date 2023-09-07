@@ -6,7 +6,7 @@ set -ex
 #=======================================
 # Create initrd link
 #---------------------------------------
-ln -sr /boot/initrd-* /boot/initrd
+ln -svr /boot/initrd* /boot/initrd
 
 #=======================================
 # Copy bootloader files to /boot so they can be deleted from root later

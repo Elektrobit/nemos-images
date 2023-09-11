@@ -1,0 +1,12 @@
+---
+
+summary: "Verify sysctl parameters"
+
+systems:
+  - "nemos-image-*"
+
+execute: |
+  test $(sysctl -n vm.overcommit_memory) = 2
+  test $(sysctl -n kernel.randomize_va_space) = 2
+  test $(sysctl -n kernel.kptr_restrict) = 1
+  test $(sysctl -n kernel.yama.ptrace_scope) = 1

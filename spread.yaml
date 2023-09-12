@@ -19,7 +19,7 @@ backends:
       SSH_PORT=$((30000 + $RANDOM % 20000))
 
       ./run_qemu.sh -f "${VM_IMAGE}" -p "${PID_FILE}" -d \
-        -s "${SSH_PORT}" -t "$(($SSH_PORT + 1))" -a "${ARCH}"
+        -s "${SSH_PORT}" -t "$(($SSH_PORT + 1))" -a "${ARCH}" -o
 
       # Try up to 5000 times to see if the SSH connection is available earlier
       for i in $(seq 1 5000); do

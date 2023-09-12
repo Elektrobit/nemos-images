@@ -16,7 +16,10 @@
     <preferences>
         <version>1.0.1</version>
         <packagemanager>apt</packagemanager>
-        <type image="oem" filesystem="ext2" firmware="efi" initrd_system="dracut" overlayroot="true" overlayroot_write_partition="false" overlayroot_readonly_partsize="62" bootpartition="true" bootpartsize="128" bootfilesystem="ext4" format="qcow2" >
+        <type image="oem" filesystem="ext2" firmware="efi" initrd_system="dracut" overlayroot="true"
+            overlayroot_write_partition="false" overlayroot_readonly_partsize="62"
+            bootpartition="true" bootpartsize="128" bootfilesystem="ext4" format="qcow2"
+            kernelcmdline="console=ttyS0 root=overlay:PARTLABEL=p.lxreadonly rd.root.overlay.readonly">
             <bootloader name="grub2" console="console" timeout="0" />
             <oemconfig>
                 <oem-resize>false</oem-resize>

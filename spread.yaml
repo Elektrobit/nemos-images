@@ -21,8 +21,8 @@ backends:
       ./run_qemu.sh -f "${VM_IMAGE}" -p "${PID_FILE}" -d \
         -s "${SSH_PORT}" -t "$(($SSH_PORT + 1))" -a "${ARCH}"
 
-      # Try up to 500 times to see if the SSH connection is available earlier
-      for i in $(seq 1 500); do
+      # Try up to 5000 times to see if the SSH connection is available earlier
+      for i in $(seq 1 5000); do
         if sshpass -p ${SPREAD_SYSTEM_PASSWORD} \
           ssh -p ${SSH_PORT} -o ConnectTimeout=1 -o StrictHostKeyChecking=no \
           -o UserKnownHostsFile=/dev/null \
@@ -64,3 +64,5 @@ backends:
 suites:
   tests/spread/:
     summary: Integration tests
+    warn-timeout: 1h
+    kill-timeout: 2h

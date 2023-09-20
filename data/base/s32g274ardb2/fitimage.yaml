@@ -1,0 +1,75 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+---
+config:
+  files:
+    fitimage:
+      - path: /boot/fitImage.its
+        append: False
+        content: |-
+          /dts-v1/;
+
+          / {
+            description = "Ubuntu kernel, ramdisk, FDT blob and boot config for a NXP S32x board";
+            #address-cells = <1>;
+
+            images {
+              kernel-1 {
+                description = "Ubuntu kernel";
+                data = /incbin/("@@PATH@@/vmlinuz");
+                type = "kernel";
+                arch = "arm64";
+                os = "linux";
+                compression = "none";
+                load =  <0x80000000>;
+                entry = <0x80000000>;
+
+                hash-1 {
+                  algo = "sha256";
+                };
+              };
+
+              ramdisk-1 {
+                description = "Ubuntu ramdisk";
+                data = /incbin/("@@PATH@@/initrd");
+                type = "ramdisk";
+                arch = "arm64";
+                os = "linux";
+                compression = "none";
+                load =  <0x90000000>;
+
+                hash-1 {
+                  algo = "sha256";
+                };
+              };
+
+              fdt-1 {
+                description = "Device tree for a NXP S32x board";
+                data = /incbin/("@@PATH@@/dtb");
+                type = "flat_dt";
+                arch = "arm64";
+                compression = "none";
+                load =  <0x83000000>;
+
+                hash-1 {
+                  algo = "sha256";
+                };
+              };
+            };
+
+            configurations {
+              default = "nxp-s32";
+
+              nxp-s32 {
+                description = "Boot config for a NXP S32x board";
+                kernel = "kernel-1";
+                ramdisk = "ramdisk-1";
+                fdt = "fdt-1";
+
+                signature-1 {
+                  algo = "sha256,rsa2048";
+                  key-name-hint = "nemos-dev";
+                  sign-images = "fdt", "kernel", "ramdisk";
+                };
+              };
+            };
+          };

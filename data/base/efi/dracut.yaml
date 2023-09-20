@@ -1,0 +1,8 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+---
+config:
+  files:
+    dracut-efi-pstore:
+      - path: /etc/dracut.conf.d/51-efi-pstore.conf
+        append: False
+        content: force_drivers+=" efi-pstore "

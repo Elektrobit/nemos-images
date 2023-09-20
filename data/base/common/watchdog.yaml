@@ -1,0 +1,11 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+---
+config:
+  files:
+    watchdog:
+      - path: /etc/systemd/system.conf.d/watchdog.conf
+        append: False
+        content: |-
+          [Manager]
+          WatchdogDevice=/dev/watchdog0
+          RuntimeWatchdogSec=10

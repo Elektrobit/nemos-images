@@ -1,0 +1,11 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+---
+# ERL-72: This is a temporary workaround to disable SELinux until it's properly
+#         implemented.
+
+config:
+  files:
+    disable-selinux:
+      - path: /etc/default/grub.d/50-disable-selinux.cfg
+        append: False
+        content: GRUB_CMDLINE_LINUX_DEFAULT="\${GRUB_CMDLINE_LINUX_DEFAULT} selinux=0"

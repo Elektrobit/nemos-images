@@ -1,0 +1,12 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+---
+preferences:
+  type:
+    _attributes:
+      firmware: "efi"
+      bootpartsize: "120"
+    bootloader:
+      _attributes:
+        name: "grub2"
+        console: "console"
+        timeout: "0"

@@ -1,0 +1,20 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+---
+config:
+  files:
+    netplan:
+      - path: /etc/netplan/00-netplan.yaml
+        append: False
+        content: |-
+          version: 2
+          ethernets:
+            pfe:
+              match:
+                name: "pfe*"
+              dhcp4: true
+              dhcp6: true
+              optional: true
+            eth0:
+              dhcp4: true
+              dhcp6: true
+              optional: true

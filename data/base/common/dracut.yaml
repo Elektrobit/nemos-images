@@ -1,0 +1,10 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+---
+config:
+  files:
+    dracut-common:
+      - path: /etc/dracut.conf.d/50-common.conf
+        append: False
+        content: |-
+          force_drivers+=" squashfs nls_iso8859-1 binfmt_misc overlay "
+          add_dracutmodules+=" bash "

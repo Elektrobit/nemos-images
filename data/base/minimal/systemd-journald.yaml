@@ -1,0 +1,11 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+---
+config:
+  files:
+    systemd-journald:
+      - path: /etc/systemd/journald.conf
+        append: False
+        content: |-
+          [Journal]
+          Storage=volatile
+          ForwardToSyslog=no

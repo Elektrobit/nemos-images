@@ -1,0 +1,14 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+---
+include-paths:
+  - "minimal"
+  - "mantic"
+  - "qemu"
+  - "efi"
+  - "efi/arm64"
+image:
+  _attributes:
+    name: nemos-image-minimal-mantic-qemu-arm64
+    displayname: "NemOS image minimal mantic qemu-arm64"
+  description:
+    specification: "NemOS image minimal mantic qemu-arm64"

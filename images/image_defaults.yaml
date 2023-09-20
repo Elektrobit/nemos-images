@@ -1,0 +1,59 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+---
+config:
+  - _include:
+      - "base/common"
+      - "networking"
+image:
+  _attributes:
+    schemaversion: "7.6"
+  description:
+    _attributes:
+      type: "system"
+    author: "NemOS Team"
+    contact: "nemos-team@lists.launchpad.net"
+  profiles:
+    profile:
+      - _attributes:
+          name: "default"
+          description: "build the image using debootstrap"
+          import: "true"
+      - _attributes:
+          name: "bootstrapped"
+          description: "build the image using a bootstrap archive"
+      - _attributes:
+          name: "development"
+          description: "build the image with development tools"
+  preferences:
+    - version: "1.0.0"
+      packagemanager: "apt"
+      _include:
+        - "config"
+  users:
+    user:
+      - _attributes:
+          name: "root"
+          groups: "root"
+          home: "/root"
+          password: "$1$wYJUgpM5$RXMMeASDc035eX.NbYWFl0"
+          shell: "/bin/ash"
+      - _attributes:
+          name: "admin"
+          groups: "users"
+          home: "/home/admin"
+          password: "$1$wYJUgpM5$RXMMeASDc035eX.NbYWFl0"
+          shell: "/bin/ash"
+  packages:
+    - _attributes:
+        type: "image"
+      _map_attribute: "name"
+      _include: "base"
+    - _attributes:
+        type: "bootstrap"
+      _include: "bootstrap"
+    - _attributes:
+        type: "bootstrap"
+      _include: "debootstrap"
+  repository:
+    - _include:
+      - "repositories"

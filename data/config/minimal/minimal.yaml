@@ -1,0 +1,27 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+---
+preferences:
+  type:
+    _attributes:
+      image: "oem"
+      initrd_system: "dracut"
+      filesystem: "xfs"
+      overlayroot: "true"
+      overlayroot_write_partition: "false"
+      overlayroot_readonly_partsize: "62"
+      bootpartition: "true"
+      bootfilesystem: "ext4"
+      format: "qcow2"
+      devicepersistency: "by-partuuid"
+      kernelcmdline: "console=ttyS0 rd.root.overlay.readonly"
+    partitions:
+      partition:
+        - _attributes:
+            name: "home"
+            size: "5"
+            mountpoint: "/home"
+            filesystem: "ext2"
+    size:
+      _attributes:
+        unit: "M"
+      _text: "256"

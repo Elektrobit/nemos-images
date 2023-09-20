@@ -1,0 +1,17 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+---
+config:
+  files:
+    sysctl:
+      - path: /etc/sysctl.d/50-kernel-kptr-restrict.conf
+        append: False
+        content: kernel.kptr_restrict=1
+      - path: /etc/sysctl.d/50-randomize-va-space.conf
+        append: False
+        content: kernel.randomize_va_space=2
+      - path: /etc/sysctl.d/50-vm-overcommit.conf
+        append: False
+        content: vm.overcommit_memory=2
+      - path: /etc/sysctl.d/50-yama-ptrace-scope.conf
+        append: False
+        content: kernel.yama.ptrace_scope=1

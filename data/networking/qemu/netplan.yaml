@@ -1,0 +1,19 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+---
+config:
+  files:
+    netplan:
+      - path: /etc/netplan/00-netplan.yaml
+        append: False
+        content: |-
+          network:
+          version: 2
+          renderer: networkd
+          ethernets:
+            lan0:
+              match:
+                driver: virtio_net
+              set-name: lan0
+              dhcp4: true
+              dhcp6: true
+              optional: false

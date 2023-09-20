@@ -1,0 +1,13 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+---
+include-paths:
+  - "reference"
+  - "lunar"
+  - "lunar/arm64"
+  - "s32g274ardb2"
+image:
+  _attributes:
+    name: nemos-image-reference-lunar-s32g274ardb2
+    displayname: "NemOS image reference lunar s32g274ardb2"
+  description:
+    specification: "NemOS image reference lunar s32g274ardb2"

@@ -1,0 +1,11 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+---
+config:
+  files:
+    oci-containers:
+      - path: /var/lib/containers/storage/TODO
+        append: False
+        content: TODO
+      - path: /var/lib/containers/loaded/TODO
+        append: False
+        content: TODO

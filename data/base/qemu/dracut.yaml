@@ -1,0 +1,8 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+---
+config:
+  files:
+    dracut-virtio:
+      - path: /etc/dracut.conf.d/50-virtio.conf
+        append: False
+        content: force_drivers+=" virtio virtio_net virtio_blk virtio_scsi virtio_rng virtio_dma_buf virtio_pci "

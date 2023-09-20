@@ -1,0 +1,35 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+---
+config:
+  files:
+    admin-user:
+      - path: /etc/polkit-1/localauthority/10-vendor.d/admin-org.freedesktop.login1.pkla
+        append: False
+        content: |-
+          [Admin - Power off the system]
+          Identity=unix-user:admin
+          Action=org.freedesktop.login1.power-off
+          ResultAny=yes
+
+          [Admin - Reboot the system]
+          Identity=unix-user:admin
+          Action=org.freedesktop.login1.reboot
+          ResultAny=yes
+
+          [Admin - Halt the system]
+          Identity=unix-user:admin
+          Action=org.freedesktop.login1.halt
+          ResultAny=yes
+      - path: /etc/sudoers
+        append: False
+        content: |-
+          Defaults always_set_home
+          Defaults secure_path="/usr/sbin:/usr/bin:/sbin:/bin"
+          Defaults env_reset
+          Defaults env_keep = "LANG LC_ADDRESS LC_CTYPE LC_COLLATE LC_IDENTIFICATION LC_MEASUREMENT LC_MESSAGES LC_MONETARY LC_NAME LC_NUMERIC LC_PAPER LC_TELEPHONE LC_ATIME LC_ALL LANGUAGE LINGUAS XDG_SESSION_COOKIE"
+          Defaults !insults
+          Defaults secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+          Defaults targetpw   # ask for the password of the target user i.e. root
+          ALL   ALL=(ALL) ALL   # WARNING! Only use this together with 'Defaults targetpw'!
+          root ALL=(ALL) ALL
+          admin ALL=(ALL) NOPASSWD: ALL

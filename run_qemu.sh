@@ -3,7 +3,7 @@
 
 set -eo pipefail
 
-RAM="1G"
+RAM="2G"
 SMP="2"
 HOST_ARCH="$(uname -m)"
 ARCH=""

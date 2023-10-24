@@ -113,6 +113,10 @@
         <package name="tpm2-tools" />
         <package name="mokutil" />
         <package name="sbsigntool" />
+        <!-- selinux -->
+        <package name="policycoreutils" />
+        <package name="selinux-basics" />
+        <package name="selinux-utils" />
         <!-- Networking tools -->
         <package name="openssh-client" />
         <package name="openssh-server" />

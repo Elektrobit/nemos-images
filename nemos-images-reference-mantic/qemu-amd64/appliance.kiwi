@@ -19,11 +19,11 @@
         <packagemanager>apt</packagemanager>
         <type image="oem" filesystem="xfs" firmware="efi" initrd_system="dracut"
             overlayroot="true" overlayroot_write_partition="true"
+            editbootconfig="install_grub.sh"
             overlayroot_readonly_partsize="1024" squashfscompression="zstd"
             bootpartition="true" bootpartsize="256" bootfilesystem="ext4" format="qcow2"
-            kernelcmdline="console=ttyS0 rd.systemd.verity=1 root=overlay:MAPPER=verityRoot verityroot=/dev/disk/by-partlabel/p.lxreadonly rd.root.overlay.write=/dev/mapper/luks rd.luks=yes rootwait pstore.backend=efi"
             verity_blocks="all" embed_verity_metadata="true" luks_version="luks2" luks="insecure">
-            <bootloader name="grub2" console="console" timeout="0" />
+            <bootloader name="custom" />
             <oemconfig>
                 <oem-resize>false</oem-resize>
             </oemconfig>
@@ -94,6 +94,7 @@
         <package name="tuptime" />
         <package name="polkitd" />
         <!-- bootloader -->
+        <package name="shim-signed" />
         <package name="grub-pc" />
         <package name="grub-efi-amd64-signed" />
         <!-- system -->

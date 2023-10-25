@@ -18,9 +18,9 @@
         <packagemanager>apt</packagemanager>
         <type image="oem" filesystem="ext2" firmware="efi" initrd_system="dracut" overlayroot="true"
             overlayroot_write_partition="false" overlayroot_readonly_partsize="62"
-            bootpartition="true" bootpartsize="120" format="qcow2" devicepersistency="by-partuuid"
-            kernelcmdline="console=ttyS0 root=overlay:PARTLABEL=p.lxreadonly rd.root.overlay.readonly">
-            <bootloader name="grub2" console="console" timeout="0" />
+            editbootconfig="install_grub.sh"
+            bootpartition="true" bootpartsize="120" format="qcow2" devicepersistency="by-partuuid">
+            <bootloader name="custom" />
             <oemconfig>
                 <oem-resize>false</oem-resize>
             </oemconfig>
@@ -69,6 +69,7 @@
         <package name="cron"/>
         <package name="zstd"/>
         <!-- bootloader -->
+        <package name="shim-signed" />
         <package name="grub-pc" />
         <package name="grub-efi-amd64-signed" />
         <!-- system -->

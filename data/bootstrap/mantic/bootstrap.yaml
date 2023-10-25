@@ -1,0 +1,14 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+---
+packages:
+  _attributes:
+    type: "bootstrap"
+    bootstrap_package: "kiwi-bootstrap-mantic"
+    profiles:
+      - "development"
+      - "bootstrapped"
+  _map_attribute: "name"
+  _namespace_bootstrap_pkgs:
+    package:
+      - "ca-certificates"
+      - "apt-transport-https"

@@ -1,0 +1,60 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+---
+repository:
+  - _attributes:
+      type: "apt-deb"
+      alias: "NemOS-PPA"
+      components: "main"
+      repository_gpgcheck: "false"
+      distribution: "mantic"
+    source:
+      _attributes:
+        path: "https://ppa.launchpadcontent.net/nemos-team/ppa/ubuntu"
+  - _attributes:
+      type: "apt-deb"
+      alias: "NemOS-Bootstrap-PPA"
+      components: "main"
+      profiles:
+        - "bootstrapped"
+        - "development"
+      repository_gpgcheck: "false"
+      distribution: "mantic"
+    source:
+      _attributes:
+        path: "https://ppa.launchpadcontent.net/nemos-team/bootstrap/ubuntu"
+  - _attributes:
+      type: "apt-deb"
+      alias: "NemOS-Kiwi-Backports-PPA"
+      components: "main"
+      repository_gpgcheck: "false"
+      distribution: "mantic"
+    source:
+      _attributes:
+        path: "https://ppa.launchpadcontent.net/nemos-team/kiwi/ubuntu"
+  - _attributes:
+      type: "apt-deb"
+      alias: "Ubuntu"
+      components: "main universe"
+      repository_gpgcheck: "false"
+      distribution: "mantic"
+    source:
+      _attributes:
+        path: "http://ports.ubuntu.com/ubuntu-ports/"
+  - _attributes:
+      type: "apt-deb"
+      alias: "Ubuntu-Updates"
+      components: "main universe"
+      repository_gpgcheck: "false"
+      distribution: "mantic-updates"
+    source:
+      _attributes:
+        path: "http://ports.ubuntu.com/ubuntu-ports/"
+  - _attributes:
+      type: "apt-deb"
+      alias: "Ubuntu-Security"
+      components: "main universe"
+      repository_gpgcheck: "false"
+      distribution: "mantic-security"
+    source:
+      _attributes:
+        path: "http://security.ubuntu.com/ubuntu"

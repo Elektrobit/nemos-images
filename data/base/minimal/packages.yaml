@@ -1,0 +1,14 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+---
+packages:
+  _namespace_minimal_pkgs:
+    package:
+      - "openssh-client"
+      - "openssh-server"
+      - "usrmerge"
+      - "netbase"
+      - "netplan.io"
+      - "sudo"
+      - "cron"
+      - "zstd"
+      - "networkd-dispatcher"

@@ -1,0 +1,8 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+---
+config:
+  files:
+    insecure-luks:
+      - path: /etc/cryptsetup-keys.d/luks.key
+        append: False
+        content: insecure

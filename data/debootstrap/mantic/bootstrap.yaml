@@ -1,0 +1,12 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+---
+packages:
+  _attributes:
+    type: "bootstrap"
+    profiles:
+      - "default"
+  _map_attribute: "name"
+  _namespace_bootstrap_pkgs:
+    package:
+      - "ca-certificates"
+      - "apt-transport-https"

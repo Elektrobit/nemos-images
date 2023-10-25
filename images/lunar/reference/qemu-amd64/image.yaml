@@ -1,0 +1,15 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+---
+include-paths:
+  - "reference"
+  - "lunar"
+  - "lunar/amd64"
+  - "qemu"
+  - "efi"
+  - "efi/amd64"
+image:
+  _attributes:
+    name: nemos-image-reference-lunar-qemu-amd64
+    displayname: "NemOS image reference lunar qemu-amd64"
+  description:
+    specification: "NemOS image reference lunar qemu-amd64"

@@ -1,0 +1,13 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+---
+config:
+  files:
+    dracut-reference:
+      - path: /etc/dracut.conf.d/50-luks.conf
+        append: False
+        content: install_items+=" /etc/cryptsetup-keys.d/luks.key "
+      - path: /etc/dracut.conf.d/50-kiwi-root.conf
+        append: False
+        content: |-
+          add_dracutmodules+=" kiwi-overlay kiwi-verity crypt "
+          force_drivers+=" overlay "

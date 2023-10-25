@@ -1,0 +1,7 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+---
+packages:
+  _namespace_grub_efi_pkgs:
+    package:
+      - "grub-efi-arm64-signed"
+      - "grub-pc"

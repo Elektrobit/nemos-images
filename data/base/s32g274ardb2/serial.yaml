@@ -1,0 +1,11 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+---
+config:
+  files:
+    serial:
+      - path: /etc/systemd/system/serial-getty@ttyLF0.service.d/override.conf
+        append: False
+        content: |-
+          [Service]
+          ExecStart=
+          ExecStart=-/usr/sbin/agetty --autologin root --noclear --keep-baud 115200,38400,9600 ttyLF0 $TERM

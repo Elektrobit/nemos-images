@@ -53,7 +53,7 @@ for profile in ${kiwi_profiles//,/ }; do
         # This requires network access to the Snap Store in Kiwi.
         mkdir -p /var/lib/snapd/seed
         echo "snaps": > /var/lib/snapd/seed/seed.yaml
-        for snap in snapd checkbox22 checkbox core22; do
+        for snap in snapd checkbox22 checkbox checkbox-erlangen-classic core22; do
             snap download $snap
             # Add this new snap to the list of seeded snaps
             cat >> /var/lib/snapd/seed/seed.yaml << EOF
@@ -62,7 +62,7 @@ for profile in ${kiwi_profiles//,/ }; do
     file: $(ls ${snap}_*.snap)
 EOF
             # Checkbox snap requires classic confinement mode
-            if [ "${snap}" = "checkbox" ]; then
+            if [ "${snap}" = "checkbox" ] || [ "${snap}" = "checkbox-erlangen-classic" ]; then
                 cat >> /var/lib/snapd/seed/seed.yaml << EOF
     classic: true
 EOF

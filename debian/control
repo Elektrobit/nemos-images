@@ -16,30 +16,60 @@ Depends:
  ${misc:Depends},
  nemos-images-minimal-lunar,
  nemos-images-reference-lunar,
-Description: Kiwi NemOS appliance description metapackage
+Description: Kiwi NemOS appliance description metapackage - lunar
  Metapackage for all lunar image descriptions for embedded targets for use
  with Kiwi.
 
 Package: nemos-images-minimal-lunar
 Architecture: all
 Depends:
- ${shlibs:Depends},
  ${misc:Depends},
  kiwi,
  kiwi-systemdeps,
 Suggests: jing
-Description: Kiwi NemOS minimal appliance descriptions
+Description: Kiwi NemOS minimal appliance descriptions - lunar
  Minimal lunar image descriptions for embedded targets for use with Kiwi.
 
 Package: nemos-images-reference-lunar
 Architecture: all
 Depends:
- ${shlibs:Depends},
  ${misc:Depends},
  kiwi,
  kiwi-systemdeps,
  ssl-cert,
 Suggests: jing
-Description: Kiwi NemOS reference appliance descriptions
+Description: Kiwi NemOS reference appliance descriptions - lunar
+ Lunar image descriptions for targets for use with Kiwi which demonstrate
+ the full capabilities of the NemOS system.
+
+Package: nemos-images-mantic
+Architecture: all
+Depends:
+ ${misc:Depends},
+ nemos-images-minimal-mantic,
+ nemos-images-reference-mantic,
+Description: Kiwi NemOS appliance description metapackage - mantic
+ Metapackage for all lunar image descriptions for embedded targets for use
+ with Kiwi.
+
+Package: nemos-images-minimal-mantic
+Architecture: all
+Depends:
+ ${misc:Depends},
+ kiwi,
+ kiwi-systemdeps,
+Suggests: jing
+Description: Kiwi NemOS minimal appliance descriptions - mantic
+ Minimal lunar image descriptions for embedded targets for use with Kiwi.
+
+Package: nemos-images-reference-mantic
+Architecture: all
+Depends:
+ ${misc:Depends},
+ kiwi,
+ kiwi-systemdeps,
+ ssl-cert,
+Suggests: jing
+Description: Kiwi NemOS reference appliance descriptions - mantic
  Lunar image descriptions for targets for use with Kiwi which demonstrate
  the full capabilities of the NemOS system.

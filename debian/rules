@@ -1,9 +1,15 @@
 #!/usr/bin/make -f
 # SPDX-License-Identifier: GPL-2.0-or-later
 
+SERIES := lunar mantic
+CONFIGS := minimal reference
+
 IMAGES := \
-	nemos-images-minimal-lunar \
-	nemos-images-reference-lunar
+	$(foreach series,$(SERIES), \
+		$(foreach config,$(CONFIGS), \
+			$(addsuffix -$(series),$(addprefix nemos-images-,$(config))) \
+		) \
+	)
 
 override_dh_auto_build:
 

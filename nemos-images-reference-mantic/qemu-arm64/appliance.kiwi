@@ -33,7 +33,8 @@
             <size unit="G">3</size>
             <partitions>
                 <partition name="home" size="10" mountpoint="/home" filesystem="ext4" />
-                <partition name="oci-storage" size="512" mountpoint="/var/lib/containers/storage" filesystem="xfs" />
+                <!-- oci-storage should be changed to xfs in the future -->
+                <partition name="oci-storage" size="512" mountpoint="/var/lib/containers/storage" filesystem="ext4" />
                 <partition name="oci-preloaded" size="512" mountpoint="/var/lib/containers/loaded" filesystem="squashfs" />
             </partitions>
             <luksformat>

@@ -17,8 +17,11 @@
     <preferences>
         <version>1.0.1</version>
         <packagemanager>apt</packagemanager>
+        <!-- NOTE: bigtime is disabled in fscreateoptions to ensure compatibility with older kernels
+        running on the build hosts. Remove this once it is no longer necessary! -->
         <type image="oem" filesystem="xfs" firmware="custom" initrd_system="dracut"
             overlayroot="true" overlayroot_write_partition="true" disk_start_sector="8192"
+            fscreateoptions="-m bigtime=0"
             dosparttable_extended_layout="true" force_mbr="true" devicepersistency="by-uuid"
             overlayroot_readonly_partsize="1024" squashfscompression="zstd"
             bootpartition="true" bootpartsize="256" bootfilesystem="ext4" format="qcow2"

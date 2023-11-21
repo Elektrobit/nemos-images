@@ -17,8 +17,11 @@
     <preferences>
         <version>1.0.1</version>
         <packagemanager>apt</packagemanager>
+        <!-- NOTE: bigtime is disabled in fscreateoptions to ensure compatibility with older kernels
+        running on the build hosts. Remove this once it is no longer necessary! -->
         <type image="oem" filesystem="xfs" firmware="efi" initrd_system="dracut"
             overlayroot="true" overlayroot_write_partition="true"
+            fscreateoptions="-m bigtime=0"
             editbootconfig="install_grub.sh"
             overlayroot_readonly_partsize="1024" squashfscompression="zstd"
             bootpartition="true" bootpartsize="256" bootfilesystem="ext4" format="qcow2"
@@ -30,7 +33,8 @@
             <size unit="G">3</size>
             <partitions>
                 <partition name="home" size="10" mountpoint="/home" filesystem="ext4" />
-                <partition name="oci-storage" size="512" mountpoint="/var/lib/containers/storage" filesystem="xfs" />
+                <!-- oci-storage should be changed to xfs in the future -->
+                <partition name="oci-storage" size="512" mountpoint="/var/lib/containers/storage" filesystem="ext4" />
                 <partition name="oci-preloaded" size="512" mountpoint="/var/lib/containers/loaded" filesystem="squashfs" />
             </partitions>
             <luksformat>

@@ -67,7 +67,8 @@ jobs:
           go install github.com/snapcore/spread/cmd/spread@latest
       - name: "Run the spread tests inside QEMU"
         run: |
-         ~/go/bin/spread -v "adhoc:nemos-image-${{ matrix.config }}-${{ matrix.series }}-${{ matrix.arch }}"
+          sudo ln -svr ${HOME}/.spread /root/.spread
+          sudo ~/go/bin/spread -v "adhoc:nemos-image-${{ matrix.config }}-${{ matrix.series }}-${{ matrix.arch }}"
   s32g274ardb2:
     runs-on: "ubuntu-latest"
     strategy:

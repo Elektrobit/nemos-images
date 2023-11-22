@@ -1,0 +1,23 @@
+---
+
+summary: "Verify installed snaps"
+
+systems:
+  - "nemos-image-reference-*"
+
+execute: |
+  # Wait for snapd to finish setting itself up
+  TIMEOUT=1000
+  while [ $(systemctl is-active snapd.seeded) != "active" ] && [ $TIMEOUT -gt 0 ]; do
+    sleep 1
+    TIMEOUT=$((${TIMEOUT} - 1))
+  done
+
+  for snap in \
+    snapd \
+    checkbox22 \
+    checkbox \
+    checkbox-erlangen-classic \
+    core22; do
+      snap list "${snap}"
+  done

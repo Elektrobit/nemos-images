@@ -53,14 +53,20 @@ for profile in ${kiwi_profiles//,/ }; do
         mkdir -p /var/lib/snapd/seed
         echo "snaps": > /var/lib/snapd/seed/seed.yaml
         for snap in snapd checkbox22 checkbox checkbox-erlangen-classic core22; do
-            snap download $snap
+            # Always download the very latest checkbox-erlangen-classic snap
+            if [ "${snap}" = "checkbox-erlangen-classic" ]; then
+                CHANNEL="latest/edge"
+            else
+                CHANNEL="latest/stable"
+            fi
+            snap download "${snap}" --channel "${CHANNEL}"
             # Add this new snap to the list of seeded snaps
             cat >> /var/lib/snapd/seed/seed.yaml << EOF
   - name: ${snap}
-    channel: latest/stable
+    channel: ${CHANNEL}
     file: $(ls ${snap}_*.snap)
 EOF
-            # Checkbox snap requires classic confinement mode
+            # Checkbox snaps require classic confinement mode
             if [ "${snap}" = "checkbox" ] || [ "${snap}" = "checkbox-erlangen-classic" ]; then
                 cat >> /var/lib/snapd/seed/seed.yaml << EOF
     classic: true

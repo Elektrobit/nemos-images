@@ -39,13 +39,18 @@ jobs:
           BUILD_DIR="$(mktemp -d)"
           # If we are building for amd64, then we can build natively. Otherwise,
           # we need to use the Kiwi boxbuild plugin to build in a VM
+          if [ "${{ matrix.config }}" = "reference" ]; then
+            PROFILE="development"
+          else
+            PROFILE="bootstrapped"
+          fi
           if [ "${{ matrix.arch }}" = "amd64" ]; then
-            sudo kiwi-ng --debug --profile bootstrapped \
+            sudo kiwi-ng --debug --profile "${PROFILE}" \
               --config nemos-images-${{ matrix.config }}-${{ matrix.series }}/kiwi.yaml \
               system build --target-dir "${BUILD_DIR}" \
               --description nemos-images-${{ matrix.config }}-${{ matrix.series }}/qemu-${{ matrix.arch}}/
           else
-            sudo kiwi-ng --debug --profile bootstrapped \
+            sudo kiwi-ng --debug --profile "${PROFILE}" \
               system boxbuild \
               --box ubuntu --aarch64 --machine=virt --no-accel --cpu cortex-a53 \
               --box-memory=$(( 2 * 1024 )) --box-smp-cpus=2 -- \
@@ -98,7 +103,12 @@ jobs:
             qemu-system-arm
       - name: "Run Kiwi"
         run: |
-          sudo kiwi-ng --debug --profile bootstrapped \
+          if [ "${{ matrix.config }}" = "reference" ]; then
+            PROFILE="development"
+          else
+            PROFILE="bootstrapped"
+          fi
+          sudo kiwi-ng --debug --profile "${PROFILE}" \
             system boxbuild \
             --box ubuntu --aarch64 --machine=virt --no-accel --cpu cortex-a53 \
             --box-memory=$(( 2 * 1024 )) --box-smp-cpus=2 -- \

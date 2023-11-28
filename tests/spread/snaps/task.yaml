@@ -16,7 +16,6 @@ execute: |
   for snap in \
     snapd \
     checkbox22 \
-    checkbox \
     checkbox-erlangen-classic \
     core22; do
       snap list "${snap}"
